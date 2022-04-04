@@ -1,9 +1,14 @@
 var express  = require('express');
 var morgan =  require('morgan');
+var cors = require("cors");
 var app= express ();
+var corsoptions = {origin: true, optionsSuccessStatus: 200 };
+
 
 app.use(morgan( 'dev'));
 app.use(express.json())
+app.use(express.urlencoded ({extended: true}));
+app.use(cors(corsoptions));
 app.use(express.urlencoded ({extended: true}));
 
 
