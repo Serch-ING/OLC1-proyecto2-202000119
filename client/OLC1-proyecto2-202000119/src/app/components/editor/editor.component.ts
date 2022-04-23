@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as ace from 'ace-builds'
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-editor',
@@ -7,6 +8,30 @@ import * as ace from 'ace-builds'
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent  {
+  constructor(private service: UserService) { }
+
+  setInfo(){
+    var entrada = ace.edit('entrada_Ace');
+    var json = {
+      info: entrada.getValue()
+    }
+    this.service.setInfo(json).subscribe(
+      (res)=>{ alert("Info enviada con exito")
+        
+      },
+      (err)=>{console.log(err)}
+    )
+  }
+
+  getInfo(){
+    //retornar informacion
+    this.service.getInfo().subscribe(
+      (res:any)=>{ console.log(res)
+        alert(res.info)  
+      },
+      (err)=>{console.log(err)}
+    )
+  }
 
 
   Ejecutar(){

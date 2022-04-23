@@ -20,7 +20,7 @@
         
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-            <button  type="button" class="btn btn-success rounded-pill"  >Guardar el archivo</button>
+            <button  type="button" class="btn btn-success rounded-pill" (click) = "Ejecutar()" >Guardar el archivo</button>
           </a>
         </li>
   
@@ -28,14 +28,14 @@
         
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-            <button type="button" class="btn btn-primary rounded-pill" (click) = "Ejecutar()" >Ejecutar</button>
+            <button type="button" class="btn btn-primary rounded-pill"  (click) = "setInfo()" >Ejecutar</button>
           </a>
         </li>
   
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
 
-          <button type="button" class="btn btn-danger rounded-pill"  >Reportes</button>
+          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()">Reportes</button>
           </a>
         </li>
   
