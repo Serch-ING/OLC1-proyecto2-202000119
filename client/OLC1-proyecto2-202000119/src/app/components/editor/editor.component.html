@@ -1,5 +1,50 @@
-<p>editor works!</p>
-<input type="text" id="asd">
+<nav class="d-flex align-items-center">
+
+    
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+  
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+            <button type="button" class="btn btn-success rounded-pill" >Crear archivo</button>
+          </a>
+        </li>
+  
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+            <button  type="button" class="btn btn-success rounded-pill"  >Abrir archivo</button>
+          </a>
+        </li>
+  
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+            <button  type="button" class="btn btn-success rounded-pill"  >Guardar el archivo</button>
+          </a>
+        </li>
+  
+  
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+            <button type="button" class="btn btn-primary rounded-pill" (click) = "Ejecutar()" >Ejecutar</button>
+          </a>
+        </li>
+  
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+
+          <button type="button" class="btn btn-danger rounded-pill"  >Reportes</button>
+          </a>
+        </li>
+  
+      </ul>
+    </nav>
+  
+    </nav><!-- End Header Buttons -->
+
+
 
 <h2>Entrada</h2>
 <ace-editor 
@@ -13,5 +58,3 @@ mode="java"
 <h2>Salida</h2>
 
 <div class="salida_Ace" id='salida_Ace'  style="height:250px;"></div>
-
-<button if="set" (click) = "hola()">set</button>

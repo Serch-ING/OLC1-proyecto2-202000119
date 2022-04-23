@@ -9,7 +9,7 @@ import * as ace from 'ace-builds'
 export class EditorComponent  {
 
 
-  hola(){
+  Ejecutar(){
     var entrada = ace.edit('entrada_Ace');
     //alert(entrada.getValue())
 
