@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node app.js"
+    "dev": "node app.js",
+    "jison": "jison ./src/grammar/grammar.jison && MOVE  grammar.js ./src/grammar",
+    "execute": "ts-node ./src/index.ts"
+
   },
   "keywords": [],
   "author": "",

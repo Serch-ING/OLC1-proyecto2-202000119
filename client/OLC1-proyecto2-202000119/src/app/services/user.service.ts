@@ -10,6 +10,7 @@ export class UserService {
 
   getInfo(){
     return this.http.get(`${this.URL}/getInfo`);
+    //runTS('./src/index.ts');
   }
 
   setInfo(json:any){

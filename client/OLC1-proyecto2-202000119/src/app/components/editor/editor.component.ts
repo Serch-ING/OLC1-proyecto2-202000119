@@ -27,7 +27,7 @@ export class EditorComponent  {
     //retornar informacion
     this.service.getInfo().subscribe(
       (res:any)=>{ console.log(res)
-        alert(res.info)  
+        alert(res.info);
       },
       (err)=>{console.log(err)}
     )
