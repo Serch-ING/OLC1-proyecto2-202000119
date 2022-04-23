@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "OLC1-proyecto2-202000119": {
+    "proyectoolc": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/olc1-proyecto2-202000119",
+            "outputPath": "dist/proyectoolc",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -80,10 +80,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "OLC1-proyecto2-202000119:build:production"
+              "browserTarget": "proyectoolc:build:production"
             },
             "development": {
-              "browserTarget": "OLC1-proyecto2-202000119:build:development"
+              "browserTarget": "proyectoolc:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "OLC1-proyecto2-202000119:build"
+            "browserTarget": "proyectoolc:build"
           }
         },
         "test": {
@@ -114,5 +114,5 @@
       }
     }
   },
-  "defaultProject": "OLC1-proyecto2-202000119"
+  "defaultProject": "proyectoolc"
 }

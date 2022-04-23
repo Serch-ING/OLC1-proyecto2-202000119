@@ -1,2 +1,17 @@
 <p>editor works!</p>
-<input type="text">
+<input type="text" id="asd">
+
+<h2>Entrada</h2>
+<ace-editor 
+class="entrada_Ace"
+style="height:250px;"
+[theme]="'monokai'"
+id="entrada_Ace"
+mode="java" 
+></ace-editor>
+
+<h2>Salida</h2>
+
+<div class="salida_Ace" id='salida_Ace'  style="height:250px;"></div>
+
+<button if="set" (click) = "hola()">set</button>

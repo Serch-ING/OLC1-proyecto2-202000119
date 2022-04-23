@@ -3,9 +3,12 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "OLC1-proyecto2-202000119": {
+    "ngx-codemirror": {
       "projectType": "application",
       "schematics": {
+        "@schematics/angular:component": {
+          "style": "css"
+        },
         "@schematics/angular:application": {
           "strict": true
         }
@@ -17,7 +20,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/olc1-proyecto2-202000119",
+            "allowedCommonJsDependencies": [
+              "codemirror"
+            ],
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -41,10 +47,39 @@
               "node_modules/ace-builds/src-min/mode-html.js",
               "node_modules/ace-builds/src-min/mode-css.js",
               "node_modules/ace-builds/src-min/mode-json.js"
-            ]
+
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": {
+                "scripts": true,
+                "fonts": {
+                  "inline": true
+                },
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                }
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -56,42 +91,25 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              ]
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-codemirror:build"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "OLC1-proyecto2-202000119:build:production"
-            },
-            "development": {
-              "browserTarget": "OLC1-proyecto2-202000119:build:development"
+              "browserTarget": "ngx-codemirror:build:production"
             }
-          },
-          "defaultConfiguration": "development"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "OLC1-proyecto2-202000119:build"
+            "browserTarget": "ngx-codemirror:build"
           }
         },
         "test": {
@@ -110,9 +128,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "OLC1-proyecto2-202000119"
+  "defaultProject": "ngx-codemirror",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
