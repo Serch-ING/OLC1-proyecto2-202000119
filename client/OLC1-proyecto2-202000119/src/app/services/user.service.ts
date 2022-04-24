@@ -8,6 +8,11 @@ export class UserService {
   URL= "http://localhost:8080"
   constructor(private http:HttpClient) { }
 
+  start(){
+    alert('aqio')
+    return this.http.patch(`${this.URL}/start`,'');
+  }
+
   getInfo(){
     return this.http.get(`${this.URL}/getInfo`);
     //runTS('./src/index.ts');

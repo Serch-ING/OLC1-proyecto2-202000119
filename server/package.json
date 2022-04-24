@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node app.js",
     "jison": "jison ./src/grammar/grammar.jison && MOVE  grammar.js ./src/grammar",
-    "execute": "ts-node ./src/index.ts"
+    "execute": "ts-node ./src/index.ts",
+    "executes": "ts-node ./index.ts"
   },
   "keywords": [],
   "author": "",

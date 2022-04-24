@@ -9,6 +9,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EditorComponent  {
   constructor(private service: UserService) { }
+  
+  start(){
+    this.service.start();
+  }
 
   setInfo(){
     var entrada = ace.edit('entrada_Ace');

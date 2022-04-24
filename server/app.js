@@ -16,6 +16,10 @@ const execSync = require('child_process').execSync;
 var incremental =0;
 var info = 'nada';
 
+
+var name = "foobar";
+module.exports = name;
+
 app. listen (8080, function (){
     console.log("Escuchando en el puerto 8080")
 })
@@ -46,11 +50,28 @@ app.post ('/setIcremental', function (req, res) {
 app.post ('/setInfo', function (req, res) {
     info= req.body.info
     var texto= req.body.texto
-    //runTS('./src/index.ts')
-    //const output = execSync('npm run execute', { encoding: 'utf-8' });  
-    //console.log('TYPESCRIPT:\n', output);
     res.json ({msg: "operacion con exito!" + texto})
+    //exceute();
+    //runTS('./src/index.ts')
+    
+    
 })
+
+app.delete ('/start', function (req, res) {
+    console.log("COMENZO")
+    //console.log(runTS('./src/index.ts'));
+    const output = execSync('npm run execute', { encoding: 'utf-8' });  
+    console.log('TYPESCRIPT:\n', output);
+    console.log("LOGRADO")
+})
+
+function exceute(){
+    console.log("COMENZO")
+    //console.log(runTS('./src/index.ts'));
+    const output = execSync('npm run execute', { encoding: 'utf-8' });  
+    console.log('TYPESCRIPT:\n', output);
+    console.log("LOGRADO")
+}
 
 app.get ('/getInfo', function (req, res) {
     res.json({info: info})

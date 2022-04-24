@@ -1,25 +1,34 @@
+import { Console } from "console";
 import { Environment } from "./symbol/enviroment";
 const axios = require('axios');
 
 const parser = require("./grammar/grammar");
 const fs = require("fs");
-var info: string;
+var info: string = '';
+const url: string = 'http://localhost:8080/getInfo';
+
+
+// name is a member of myModule due to the export above
+
 
 try {
-  const url: string = 'http://localhost:8080/getInfo';
-  async function example() {  
-    const response = await axios.get(url);
-    //console.log(response.data.info);
-    info = response.data.info;
-    appstart();
-  }
+
+  console.log('hola iniciando');
+  console.log(name);
+  example();
   
+  async function example() {  
+    console.log('HOLA TONTO');
+    //var response = await axios.get(url);
+    //info = response.data.info;
+   // appstart();
+  }
   
   function appstart(){
    
     console.log(info);
   
-   // const entrada = fs.readFileSync("src/entrada.txt");
+    // const entrada = fs.readFileSync("src/entrada.txt");
     const ast = parser.parse(info.toString());
   
     //const ast = parser.parse("s".toString());
@@ -35,7 +44,7 @@ try {
     }
   }
  
-  example();
+  
 } catch (error) {
   console.log("////////ERROR/////////")
   console.log(error);
