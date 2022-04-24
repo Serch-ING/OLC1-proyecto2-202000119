@@ -8,14 +8,15 @@
     "dev": "node app.js",
     "jison": "jison ./src/grammar/grammar.jison && MOVE  grammar.js ./src/grammar",
     "execute": "ts-node ./src/index.ts"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.2.3"
   }
 }

@@ -1,3 +1,5 @@
+
+
 var express  = require('express');
 var morgan =  require('morgan');
 var cors = require("cors");
@@ -9,11 +11,10 @@ app.use(express.json())
 app.use(express.urlencoded ({extended: true}));
 app.use(cors(corsoptions));
 app.use(express.urlencoded ({extended: true}));
+const execSync = require('child_process').execSync;
 
 var incremental =0;
 var info = 'nada';
-const execSync = require('child_process').execSync;
-
 
 app. listen (8080, function (){
     console.log("Escuchando en el puerto 8080")
@@ -46,8 +47,8 @@ app.post ('/setInfo', function (req, res) {
     info= req.body.info
     var texto= req.body.texto
     //runTS('./src/index.ts')
-    const output = execSync('npm run execute', { encoding: 'utf-8' });  
-    console.log('TYPESCRIPT:\n', output);
+    //const output = execSync('npm run execute', { encoding: 'utf-8' });  
+    //console.log('TYPESCRIPT:\n', output);
     res.json ({msg: "operacion con exito!" + texto})
 })
 
