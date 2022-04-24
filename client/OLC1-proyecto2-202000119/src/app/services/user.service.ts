@@ -5,13 +5,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
-  URL= "http://localhost:8080"
+  URL= "http://localhost:3000/api"
   constructor(private http:HttpClient) { }
-
-  start(){
-    alert('aqio')
-    return this.http.patch(`${this.URL}/start`,'');
-  }
 
   getInfo(){
     return this.http.get(`${this.URL}/getInfo`);
@@ -19,7 +14,7 @@ export class UserService {
   }
 
   setInfo(json:any){
-    return this.http.post(`${this.URL}/setInfo`,json);
+    return this.http.post(`${this.URL}/ejecutar`,json);
   }
 
   getdata(){

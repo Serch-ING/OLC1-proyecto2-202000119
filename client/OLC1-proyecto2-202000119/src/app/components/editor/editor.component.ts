@@ -10,18 +10,16 @@ import { UserService } from 'src/app/services/user.service';
 export class EditorComponent  {
   constructor(private service: UserService) { }
   
-  start(){
-    this.service.start();
-  }
-
   setInfo(){
     var entrada = ace.edit('entrada_Ace');
+    var salida = ace.edit('salida_Ace');
     var json = {
-      info: entrada.getValue()
+      input: entrada.getValue()
     }
     this.service.setInfo(json).subscribe(
-      (res)=>{ alert("Info enviada con exito")
-        
+      (res:any)=>{ alert("Info enviada con exito")
+          var respuesta = res.consola;
+          salida.setValue(respuesta);
       },
       (err)=>{console.log(err)}
     )
