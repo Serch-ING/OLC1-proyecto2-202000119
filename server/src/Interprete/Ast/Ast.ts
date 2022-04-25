@@ -39,6 +39,7 @@ export default class Ast implements Instruccion{
             if(instruccion instanceof StartWith && !bandera_startwith){
                 instruccion.ejecutar(controlador,ts);
                 bandera_startwith = true;
+                continue;
             }else if(bandera_startwith){
                 //error solo se puede tener un start with  
 

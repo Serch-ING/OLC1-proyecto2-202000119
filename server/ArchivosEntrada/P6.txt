@@ -1,6 +1,16 @@
-int entero, entero2 = 25-1; 
+// comentario normal
+///comentarios anormal
+/* comentario
+normal */
+/* comentario anormal
+int i = 999;
+metodofuncional();
+///comentario
+*/
+
+int entero, entero2 = 25; 
 double decimal = 3.14; 
-string cadena = "Hola Mundo"; 
+string cadena = "Hola Mundo";
 WriteLine("Todo bien, todo correcto");
 WriteLine("valores =>" + entero + ", " + entero2 + ", " + decimal + ", " + cadena); 
 boolean validacion = true;
@@ -82,3 +92,31 @@ int validaciones(int n){
 WriteLine(factorialIterativo(10));
 int temp = factorialIterativo(10);
 WriteLine(temp);
+
+void metodofuncional(){
+    int metodo = 9999;
+    WriteLine("FUNCIONANDO: " + metodo);
+}
+
+metodofuncional();
+
+void metoodparametros(int n){
+    int num = n*n*n/n;
+    WriteLine("funcuion parametros: " + num);
+}
+metoodparametros(10);
+
+void muchosparametrosmetodo(int a, int b, int c,int d){
+    int num = a*b*c/d;
+    WriteLine("funcuion muchos parametros: " + num);
+}
+
+muchosparametrosmetodo(1,10,10,10);
+
+int funcionmuchosparameters(int a, int b, int c,int d){
+    int num = a * b * c / d;
+    return num;
+}
+ WriteLine("funcuion return muchos parametros: " + funcionmuchosparameters(1,10,10,10));
+
+

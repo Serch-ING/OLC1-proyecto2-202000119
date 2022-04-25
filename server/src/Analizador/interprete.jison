@@ -113,8 +113,10 @@ caracter         (\'({escape2} | {aceptacion2})\')
 
 
 /*Espacios*/
-[\s\r\n\t]             {/* Espacios se ignoran */}
-
+[\s\r\n\t]             {}
+\s+                   {}
+"//".*                {}
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] {}
 
 <<EOF>>               return 'EOF'
 .                     { console.log("Error Lexico "+yytext
@@ -192,6 +194,7 @@ instrucciones : instrucciones instruccion   { $$ = $1; $$.push($2); }
             ;
 
 instruccion : declaracion   { $$ =  $1; }
+            | startwith      { $$ = $1; }
             | writeline     { $$ = $1; }
             | asignacion    { $$ = $1; }
             | sent_if       { $$ = $1; }
@@ -276,10 +279,11 @@ caso : CASE e DSPNTS instrucciones  { $$ = new caso.default($2, $4, @1.first_lin
 default : DEFAULT DSPNTS instrucciones { $$ = new caso.default(null, $3, @1.first_line, @1.last_column);}
         ;
 
-funciones : tipo ID PARA lista_params PARC LLAVA instrucciones LLAVC { $$ = new funcion.default(2, $1, $2, $4, false, $7,  @1.first_line, @1.last_column); }
-        | tipo ID PARA  PARC LLAVA instrucciones LLAVC               { $$ = new funcion.default(2, $1, $2, [], false, $6,  @1.first_line, @1.last_column); }
-        | VOID ID PARA lista_params PARC LLAVA instrucciones LLAVC   { $$ = new funcion.default(3, $1, $2, $4, true, $7,  @1.first_line, @1.last_column); }
-        | VOID ID PARA  PARC LLAVA instrucciones LLAVC               { $$ = new funcion.default(3, $1, $2, [], true, $6,  @1.first_line, @1.last_column); }
+funciones 
+        : ID PARA lista_params PARC DSPNTS tipo LLAVA instrucciones LLAVC { $$ = new funcion.default(2, $6, $1, $3, false, $8,  @1.first_line, @1.last_column); }
+        | ID PARA  PARC DSPNTS tipo LLAVA instrucciones LLAVC               { $$ = new funcion.default(2, $5, $1, [], false, $7,  @1.first_line, @1.last_column); }
+        | ID PARA lista_params PARC DSPNTS VOID LLAVA instrucciones LLAVC   { $$ = new funcion.default(3, $6, $1, $3, true, $8,  @1.first_line, @1.last_column); }
+        | ID PARA  PARC DSPNTS VOID LLAVA instrucciones LLAVC               { $$ = new funcion.default(3, $5, $1, [], true, $7,  @1.first_line, @1.last_column); }
         ;
 
 lista_params : lista_params COMA tipo ID          { $$ = $1; $$.push(new simbolo.default(6, $3, $4, null)); }
@@ -294,9 +298,12 @@ lista_vals : lista_vals COMA e          { $$ = $1; $$.push($3); }
         | e                             { $$ = new Array(); $$.push($1); }
         ; 
 
-startwith :  START WITH  llamada PYC    { $$ = new startwith.default($3,@1.first_line, @1.last_column );}
-        | START WITH llamada PYC  
+startwith :  START WITH  llamadaeee PYC    { $$ = new startwith.default($3,@1.first_line, @1.last_column );}
         ;
+
+llamadaeee : ID PARA lista_vals PARC {$$ = new llamada.default($1, $3,@1.first_line, @1.last_column ); }
+        | ID PARA  PARC           {$$ = new llamada.default($1, [] ,@1.first_line, @1.last_column ); }
+        ;   
 
 e : e MAS e         { $$ = new aritmetica.default($1, '+', $3, @1.first_line, @1.last_column,false); }
     | e MENOS e      { $$ = new aritmetica.default($1, '-', $3, @1.first_line, @1.last_column,false); }

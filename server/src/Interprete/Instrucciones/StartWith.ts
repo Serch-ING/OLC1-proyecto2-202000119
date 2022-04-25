@@ -20,6 +20,7 @@ export default class StartWith implements Instruccion{
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
         this.llamada.ejecutar(controlador,ts);
     }
+
     recorrer(): Nodo {
         throw new Error("Method not implemented.");
     } 
