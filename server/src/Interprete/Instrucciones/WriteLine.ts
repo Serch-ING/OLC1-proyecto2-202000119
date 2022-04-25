@@ -10,11 +10,13 @@ export default class WriteLine implements Instruccion{
     public expresion : Expresion;
     public linea : number;
     public columna : number;
+    public validacion : boolean;
 
-    constructor(expresion : Expresion, linea : number, columna: number) {
+    constructor(expresion : Expresion,validacion: boolean ,linea : number, columna: number) {
         this.expresion =expresion;
         this.linea = linea;
         this.columna = columna;
+        this.validacion = validacion;
     }
     
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
@@ -23,7 +25,7 @@ export default class WriteLine implements Instruccion{
 
         if(tipo_valor == tipo.ENTERO || tipo_valor == tipo.DOBLE || tipo_valor == tipo.CARACTER || tipo_valor == tipo.CADENA || tipo_valor == tipo.BOOLEANO){
             let valor = this.expresion.getValor(controlador,ts);
-            controlador.append(valor);
+            controlador.print(valor,this.validacion);
         }
     }
     

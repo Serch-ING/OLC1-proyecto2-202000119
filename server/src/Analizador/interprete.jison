@@ -80,6 +80,8 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "boolean"                  { console.log("Reconocio : " + yytext);  return 'BOOLEAN' }
 
 "writeline"                  { console.log("Reconocio : " + yytext);  return 'WRITELINE' }
+"print"                 { console.log("Reconocio : " + yytext);  return 'PRINT' }
+"println"                 { console.log("Reconocio : " + yytext);  return 'PRINTLN' }
 
 "if"               { console.log("Reconocio : "+ yytext); return 'IF'}
 "while"            { console.log("Reconocio : "+ yytext); return 'WHILE'}
@@ -234,7 +236,8 @@ lista_ids : lista_ids COMA ID   { $$ = $1; $$.push($3); }
         | ID                    { $$ = new Array(); $$.push($1); }
         ;
 
-writeline : WRITELINE PARA e PARC PYC { $$ = new writeline.default($3, @1.first_line, @1.last_column); }
+writeline : PRINTLN PARA e PARC PYC { $$ = new writeline.default($3,true,@1.first_line, @1.last_column); }
+        |  PRINT PARA e PARC PYC { $$ = new writeline.default($3,false,@1.first_line, @1.last_column); }
         ;
 
 asignacion : ID IGUAL e PYC   { $$ = new asignacion.default($1, $3, @1.first_line, @1.last_column); }

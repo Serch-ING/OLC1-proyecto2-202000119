@@ -19,6 +19,15 @@ export default class Controlador{
         this.sent_ciclica = false;
     }
 
+    print(cadena : string, tipo:boolean){
+        if(tipo){
+            this.consola = this.consola + cadena + " \r\n ";
+        }else{
+            this.consola = this.consola + cadena ;
+        }
+    }
+
+
     append(cadena : string){
         this.consola = this.consola + cadena + " \r\n ";
     }

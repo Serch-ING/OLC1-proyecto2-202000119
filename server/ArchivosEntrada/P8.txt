@@ -1,0 +1,19 @@
+int b = metodoretorno();
+
+metodoretorno() : int {
+    return 999;
+}
+
+metoodparametros(int a) : void{
+    int num = 10-1;
+    WriteLine("metodo SIN parametros: " + num + " " + a + " " + b);
+     WriteLine("llamada: "  + metodoretorno() );
+}
+
+metoodparametros(0);
+run metoodparametros(10);
+
+if(true){
+      WriteLine("funciona");
+}
+ WriteLine("metodo SIN parametros: "  + b);
