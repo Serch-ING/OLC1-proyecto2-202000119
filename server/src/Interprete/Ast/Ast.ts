@@ -48,7 +48,7 @@ export default class Ast implements Instruccion{
             }
             
             if(!(instruccion instanceof Declaracion) && !(instruccion instanceof Funcion)){
-                instruccion.ejecutar(controlador,ts);
+                //instruccion.ejecutar(controlador,ts);
             }
         }
     }
