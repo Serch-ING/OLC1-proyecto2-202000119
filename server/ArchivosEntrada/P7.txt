@@ -1,0 +1,23 @@
+ metoodparametros() : void{
+    int num = 10-1;
+    WriteLine("metodo SIN parametros: " + num);
+}
+metoodparametros();
+
+metodoelevedo(int n) : void{
+    int num = n*n;
+    WriteLine("metodo parametros: " + num);
+}
+metodoelevedo(10);
+
+funcionparametros() : int{
+    int num = 10-1;
+    return num;
+}
+ WriteLine("funcuion SIN parametros: " + funcionparametros());
+ 
+ funcionelevado(int n) : int{
+    int num = n*n;
+    return num;
+}
+ WriteLine("funcuion parametros: " + funcionelevado(10));

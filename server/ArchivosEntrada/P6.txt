@@ -1,0 +1,122 @@
+// comentario normal
+///comentarios anormal
+/* comentario
+normal */
+/* comentario anormal
+int i = 999;
+metodofuncional();
+///comentario
+*/
+
+int entero, entero2 = 25; 
+double decimal = 3.14; 
+string cadena = "Hola Mundo";
+WriteLine("Todo bien, todo correcto");
+WriteLine("valores =>" + entero + ", " + entero2 + ", " + decimal + ", " + cadena); 
+boolean validacion = true;
+WriteLine(validacion);
+
+if(validacion){
+    WriteLine("correctox1");
+}
+
+if(!validacion){
+    WriteLine("no debe imprimir");
+}else{
+    WriteLine("correctox2");
+}
+
+if(!validacion){
+    WriteLine("no debe imprimir");
+}else if(entero<30){
+    WriteLine("correctox3");
+}
+
+entero2++;
+
+ for (int i = 0; i < 2; i++) {
+        WriteLine("i= " + i);
+        entero++;
+}
+
+if(entero >entero2){
+    WriteLine("entero > entero2");
+    WriteLine(entero +  ">" + entero2);
+}else if(entero < entero2){
+    WriteLine("entero2 > entero");
+     WriteLine(entero2 +  ">" + entero);
+}else{
+    WriteLine("entero2 = entero");
+     WriteLine(entero +  "=" + entero2);
+}
+
+
+while(entero<30){
+    entero++;
+    if(entero == 27){
+        continue;
+    }
+    WriteLine("while: " + entero);
+    
+    
+    if(entero ==29){
+        break;
+    }
+}
+
+string cadena_new = "contador :"; 
+int k = entero;
+for (int i = 0; i < k; i++) {
+    cadena_new = cadena_new + i;
+    k--;
+    if(k==17){
+        break;
+        //continue;
+    }
+}
+WriteLine(cadena_new + " k: " + k);
+
+WriteLine("finalizado");
+
+
+int factorialIterativo(int n){
+    n = n * n / n;
+    return validaciones(n);
+}
+
+int validaciones(int n){
+    n = n * n;
+    return n;
+}
+
+WriteLine(factorialIterativo(10));
+int temp = factorialIterativo(10);
+WriteLine(temp);
+
+void metodofuncional(){
+    int metodo = 9999;
+    WriteLine("FUNCIONANDO: " + metodo);
+}
+
+metodofuncional();
+
+void metoodparametros(int n){
+    int num = n*n*n/n;
+    WriteLine("funcuion parametros: " + num);
+}
+metoodparametros(10);
+
+void muchosparametrosmetodo(int a, int b, int c,int d){
+    int num = a*b*c/d;
+    WriteLine("funcuion muchos parametros: " + num);
+}
+
+muchosparametrosmetodo(1,10,10,10);
+
+int funcionmuchosparameters(int a, int b, int c,int d){
+    int num = a * b * c / d;
+    return num;
+}
+ WriteLine("funcuion return muchos parametros: " + funcionmuchosparameters(1,10,10,10));
+
+

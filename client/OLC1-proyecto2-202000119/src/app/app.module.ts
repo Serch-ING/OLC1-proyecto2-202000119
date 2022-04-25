@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EditorComponent } from './components/editor/editor.component';
+import { FormsModule } from '@angular/forms';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { AceEditorModule } from 'ng2-ace-editor';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { EditorComponent } from './components/editor/editor.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    CodemirrorModule,
+    AceEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
