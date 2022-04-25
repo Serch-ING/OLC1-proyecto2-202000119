@@ -97,6 +97,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 
 "start"            { console.log("Reconocio : "+ yytext); return 'START'}
 "with"            { console.log("Reconocio : "+ yytext); return 'WITH'}
+"run"            { console.log("Reconocio : "+ yytext); return 'RUN'}
 "void"            { console.log("Reconocio : "+ yytext); return 'VOID'}
 
 "return"            { console.log("Reconocio : "+ yytext); return 'RETURN'}
@@ -298,7 +299,7 @@ lista_vals : lista_vals COMA e          { $$ = $1; $$.push($3); }
         | e                             { $$ = new Array(); $$.push($1); }
         ; 
 
-startwith :  START WITH  llamadaeee PYC    { $$ = new startwith.default($3,@1.first_line, @1.last_column );}
+startwith :  RUN  llamadaeee PYC    { $$ = new startwith.default($2,@1.first_line, @1.last_column );}
         ;
 
 llamadaeee : ID PARA lista_vals PARC {$$ = new llamada.default($1, $3,@1.first_line, @1.last_column ); }
