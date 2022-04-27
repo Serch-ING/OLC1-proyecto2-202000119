@@ -1,0 +1,26 @@
+
+
+run metodo();
+
+
+
+metodo() : void{
+    Println("Hola mundo!!");
+    println("var");
+}
+
+
+int a=10;
+nuevomeotodo();
+nuevomeotodo() : void{
+    println("NUEVO");
+    println(a + " HOLA ");
+}
+
+int b=100;
+nuevomeotodo1();
+nuevomeotodo1() : void{
+    println("NUEVO con b");
+    println(b + " HOLA ");
+}
+
