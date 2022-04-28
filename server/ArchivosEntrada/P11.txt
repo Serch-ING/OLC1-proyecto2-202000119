@@ -1,0 +1,48 @@
+int valor = 100;
+int valorotro = 99;
+boolean validacion = true;
+
+if(100>=valor){
+    println("100>=valor");
+}else{
+    println("100<valor");
+}
+
+if(100>valor){
+    println("100>valor");
+}else{
+    println("100<valor");
+}
+
+println("-----------------------------------------------");
+
+if(100<=valorotro){
+    println("100<=valorotro");
+}else{
+    println("100>valorotro");
+}
+
+if(100<valorotro){
+    println("100<valorotro");
+}else{
+    println("100>valorotro");
+}
+
+println("-----------------------------------------------");
+
+if(valor == valorotro) {
+	println("iguales");
+}
+
+if(valor != valorotro) {
+	println("diferentes");
+}
+
+println("-----------------------------------------------");
+
+if(true && true && true && true && false) {
+	println("bien");
+}else{
+    println("malo");
+}
+

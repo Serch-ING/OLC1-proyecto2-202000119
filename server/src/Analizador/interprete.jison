@@ -34,7 +34,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "++"                  { console.log("Reconocio : " + yytext);  return 'INCRE' } 
 "=="                  { console.log("Reconocio : " + yytext);  return 'IGUALIGUAL' } 
 "^"                  { console.log("Reconocio : " + yytext);  return 'POT' } 
-"!"                  { console.log("Reconocio : " + yytext);  return 'NOT' } 
+
 "%"                  { console.log("Reconocio : " + yytext);  return 'MOD' } 
 "("                  { console.log("Reconocio : " + yytext);  return 'PARA' } 
 ")"                  { console.log("Reconocio : " + yytext);  return 'PARC' } 
@@ -67,6 +67,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "&&"                  { console.log("Reconocio : " + yytext);  return 'AND' } 
 "||"                  { console.log("Reconocio : " + yytext);  return 'OR' } 
 "!"                  { console.log("Reconocio : " + yytext);  return 'NOT' }
+
 
 /*Palabras reservadas*/
 "evaluar"                  { console.log("Reconocio : " + yytext);  return 'EVALUAR' } 
@@ -212,9 +213,9 @@ instruccion : declaracion   { $$ =  $1; }
             | llamada PYC   { $$ = $1; } 
             | RETURN PYC        { $$ = new retorno.default(null); } 
             | RETURN e PYC      { $$ = new retorno.default($2); } 
-            | error         { console.log("Error Sintactico" + yytext 
-                                    + "linea: " + this._$.first_line 
-                                    + "columna: " + this._$.first_column); 
+            | error         { console.log("Error Sintactico: " + yytext 
+                                    + " linea: " + this._$.first_line 
+                                    + " columna: " + this._$.first_column); 
                         
                                 new errores.default("Sintactico", "No se esperaba el caracter "+ yytext , 
                                                 this._$.first_line ,this._$.first_column);            

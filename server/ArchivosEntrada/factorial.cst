@@ -1,0 +1,10 @@
+int numero = (int) 10/2+2.5; // 7
+
+println("Resultado de factorial de " + numero + " es: " + factorial(numero));
+
+factorial(int numero): int {
+    if (numero > 1) {
+        return numero * factorial(numero - 1);
+    }
+    return numero;
+}
