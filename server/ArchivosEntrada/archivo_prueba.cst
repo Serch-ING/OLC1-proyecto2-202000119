@@ -1,4 +1,4 @@
-int numero = (int) 5;
+int numero = 5;
 
 println("Resultado de factorial de " + numero + " es: " + factorial(numero));
 
