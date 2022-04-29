@@ -7,16 +7,15 @@
         
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-            <button type="button" class="btn btn-success rounded-pill" >Crear archivo</button>
+            <button type="button" class="btn btn-success rounded-pill" onclick="location.reload()">Crear archivo</button>
           </a>
         </li>
 
         
         <li class="nav-item dropdown">
 
-          <!--<input type="file" name="avatar"  class="btn btn-primary" accept="application/CST, application/CST" >-->
-          <input type="file" (change)="onChange($event.target.files)">
-         
+          <input type="file" name="avatar"  class="btn btn-primary" accept="application/CST, application/CST"  (change)="onChange($event)">
+             <!-- <pre> {{fileContent}} </pre>-->
       </li>
   
         <!--<li class="nav-item dropdown">
@@ -29,7 +28,7 @@
         
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-            <button  type="button" class="btn btn-success rounded-pill" (click) = "Ejecutar()" >Guardar el archivo</button>
+            <button  type="button" class="btn btn-success rounded-pill" (click) = "download()" >Guardar Como</button>
           </a>
         </li>
   

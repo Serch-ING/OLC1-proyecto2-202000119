@@ -1,28 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 import * as ace from 'ace-builds'
 import { UserService } from 'src/app/services/user.service';
-
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css']
 })
+
+
+
 export class EditorComponent  {
   
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService,private sanitizer: DomSanitizer) { }
   
-  public onChange(fileList: FileList): void {
-    let file = fileList[0];
+  
+  fileContent: any = '';
+
+
+  download() {
+
+    var entrada = ace.edit('entrada_Ace');
+    let name:any = prompt("Nombre del archivo:", "");
+    var file = new Blob([entrada.getValue()],  { type: 'text/cst;charset=utf-8;' });
+
+  
+    var a = document.createElement("a"),url = URL.createObjectURL(file);
+    
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+
+
+    a.click();
+    document.body.removeChild(a);
+
+  }
+
+  onChange(event:any): void {
+    try {
+    const files = event.target.files;
+    var entrada = ace.edit('entrada_Ace');
+    let file = files[0];
     let fileReader: FileReader = new FileReader();
     let self = this;
-    let fileContent:any = "";
-    fileReader.onloadend = function(x) {
-      fileContent = fileReader.result;
-    }
+    fileReader.onloadend = function (x) {
+      self.fileContent = fileReader.result;
+      entrada.setValue(self.fileContent)
+    };
+
     fileReader.readAsText(file);
-  }
+   
+    
+    } catch {}
+ }
+
 
 
   setInfo(){

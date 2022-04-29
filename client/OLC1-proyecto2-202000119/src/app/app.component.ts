@@ -7,4 +7,26 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'OLC1-proyecto2-202000119';
+
+  fileContent: any = '';
+
+
+  onChange(event:any): void {
+    try {
+    const files = event.target.files;
+
+    let file = files[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function (x) {
+      self.fileContent = fileReader.result;
+      
+    };
+
+    fileReader.readAsText(file);
+   
+    } catch {}
+ }
+
+
 }
