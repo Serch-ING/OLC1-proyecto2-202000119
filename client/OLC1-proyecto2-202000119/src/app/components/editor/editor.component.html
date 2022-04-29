@@ -10,12 +10,21 @@
             <button type="button" class="btn btn-success rounded-pill" >Crear archivo</button>
           </a>
         </li>
-  
+
+        
         <li class="nav-item dropdown">
+
+          <!--<input type="file" name="avatar"  class="btn btn-primary" accept="application/CST, application/CST" >-->
+          <input type="file" (change)="onChange($event.target.files)">
+         
+      </li>
+  
+        <!--<li class="nav-item dropdown">
           <a class="nav-link nav-icon">
+          
             <button  type="button" class="btn btn-success rounded-pill"  >Abrir archivo</button>
           </a>
-        </li>
+        </li>-->
   
         
         <li class="nav-item dropdown">

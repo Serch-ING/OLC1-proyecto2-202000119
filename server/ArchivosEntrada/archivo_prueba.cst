@@ -9,7 +9,7 @@ factorial(int numero): int {
     return numero;
 }
 
-numero = "50"; // Error Semantico
+//numero = "50";  Error Semantico
 
 string numeroString = toString(numero); // numeroString = "5"; 
 

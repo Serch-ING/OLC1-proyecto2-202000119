@@ -32,6 +32,8 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "toString"  { console.log("Reconocio : "+ yytext); return 'CASTEOSTRING'}
 "(char)"  { console.log("Reconocio : "+ yytext); return 'CASTEOCHAR'}
 "typeOf"  { console.log("Reconocio : "+ yytext); return 'CASTEOTIPO'}
+"toLower"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOLOWER'}
+"toUpper"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOUPPER'}
 /* Simbolos del programa */
 
 "--"                  { console.log("Reconocio : " + yytext);  return 'DECRE' } 

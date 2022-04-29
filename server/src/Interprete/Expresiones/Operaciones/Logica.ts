@@ -1,3 +1,4 @@
+import e from "express";
 import Errores from "../../Ast/Errores";
 import Nodo from "../../Ast/Nodo";
 import Controlador from "../../Controlador";
@@ -54,6 +55,8 @@ export default class Logica extends Operacion implements Expresion{
             /** segun el enununciado 
              * Se comparan simbolos a nivel logico -> verdadero o falso 
              */
+            
+       // console.log("valor: " + this.exp1.getValor(controlador,ts));
         if(this.expU == false){ 
             if(tipo_exp1 == tipo.BOOLEANO){
                 if(tipo_exp2 == tipo.BOOLEANO){
@@ -64,18 +67,42 @@ export default class Logica extends Operacion implements Expresion{
             }else{
                return tipo.ERROR;
             }
-        }else{// !true
-            //sera unario cuando el operador sea NOT
-            if(tipo_expU == tipo.BOOLEANO){
-                return tipo.BOOLEANO;
+        }else{
+
+            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO)
+
+            switch (this.operador) {
+                case Operador.CASTEOINT:
+                    return tipo.ENTERO;
+                    break;
+    
+                case Operador.CASTEODOUBLE:
+                    return tipo.DOBLE;
+                    break;
+    
+                case Operador.CASTEOSTRING:
+                    return tipo.CADENA;
+                    break;
+    
+                case Operador.CASTEOCHAR:
+                    return tipo.CARACTER;
+                    break;
+                
+                case Operador.CASTEOTIPO:
+                    return tipo.CADENA;
+                    break;
+                default:
+                    return tipo.ERROR;
+                    break;
             }else{
-                if(tipo_expU == tipo.ENTERO || tipo_expU == tipo.DOBLE || tipo_expU == tipo.CARACTER || tipo_expU == tipo.CADENA){
-                    return tipo_expU;
+                
+                if(tipo_expU == tipo.BOOLEANO){
+                    return tipo.BOOLEANO;  
                 }else{
                     return tipo.ERROR;
                 }
-                
-            }
+            }  
+
         }
                 
         return tipo.ERROR;
@@ -189,9 +216,9 @@ export default class Logica extends Operacion implements Expresion{
 
                     if(tipo_expU == tipo.CARACTER){
                         let temporal = valor_expU.charCodeAt(0);
-                        return (temporal).toFixed(2); 
+                        return (temporal); 
                     }else{
-                        return (valor_expU).toFixed(2);
+                        return (valor_expU);
                     }
                     
                 }else{

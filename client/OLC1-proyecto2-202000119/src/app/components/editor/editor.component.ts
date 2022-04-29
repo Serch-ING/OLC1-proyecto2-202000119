@@ -2,14 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import * as ace from 'ace-builds'
 import { UserService } from 'src/app/services/user.service';
 
+
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent  {
+  
+
   constructor(private service: UserService) { }
   
+  public onChange(fileList: FileList): void {
+    let file = fileList[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    let fileContent:any = "";
+    fileReader.onloadend = function(x) {
+      fileContent = fileReader.result;
+    }
+    fileReader.readAsText(file);
+  }
+
+
   setInfo(){
     var entrada = ace.edit('entrada_Ace');
     var salida = ace.edit('salida_Ace');
@@ -45,12 +60,14 @@ export class EditorComponent  {
   }
 
   ngOnInit() {
+   
+
     var editor = ace.edit('salida_Ace');
     editor.setValue('hola');
     editor.getSession().setUseWorker(false);
     editor.setShowPrintMargin(false);
     editor.setReadOnly(true);
-    console.log(editor.getValue())
+
 }
 
 

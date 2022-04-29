@@ -1,0 +1,20 @@
+int edad = 10;
+
+switch( edad ) {
+Case 10:
+    Println("Tengo 10 anios.");
+   Break;
+    
+Case 18:
+    Println("Tengo 18 anios.");
+    Break;
+    
+Case 25:
+    Println("Tengo 25 anios.");
+    Break;
+    
+Default:
+    Println("No se que edad tengo. :");
+
+    Break;
+}
