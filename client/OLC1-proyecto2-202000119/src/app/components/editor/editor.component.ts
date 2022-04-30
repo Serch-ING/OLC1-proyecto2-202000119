@@ -15,10 +15,13 @@ export class EditorComponent  {
   
 
   constructor(private service: UserService,private sanitizer: DomSanitizer) { }
-  
+  Tablasimbolos: any = ''
   
   fileContent: any = '';
 
+  reporteErroes(){
+
+  }
 
   download() {
 
@@ -69,6 +72,7 @@ export class EditorComponent  {
       (res:any)=>{ alert("Info enviada con exito")
           var respuesta = res.consola;
           salida.setValue(respuesta);
+          this.Tablasimbolos = res.ts;
       },
       (err)=>{console.log(err)}
     )

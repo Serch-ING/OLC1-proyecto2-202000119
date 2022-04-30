@@ -1,0 +1,279 @@
+
+num [0-9]+
+id      [a-zñA-ZÑ][a-zñA-ZÑ0-9_]*
+
+
+escapechar      [\'\"\\ntr]
+escape          \\{escapechar}
+aceptacion      [^\"\\] 
+cadena          (\"({escape} | {aceptacion})*\")
+
+
+escapechar2      [\'\"\\ntr]
+escape2          \\{escapechar2}
+aceptacion2      [^\'\\] 
+caracter         (\'({escape2} | {aceptacion2})\')
+
+
+"(int)"  = CASTEOINT
+"(double)" = CASTEODOUBLE
+"toString" = CASTEOSTRING
+"(char)" = CASTEOCHAR
+"typeOf" = CASTEOTIPO
+"toLower" = CASTEOTOLOWER
+"toUpper" = CASTEOTOUPPER
+"length" = LENGTH
+
+
+"--"     =      DECRE
+"++"      = INCRE
+"=="      = IGUALIGUAL
+"^"     =   POT 
+
+"%" =MOD 
+"("= PARA 
+")"= PARC 
+"["= CORA 
+"]"=  CORC 
+";"= PYC 
+"="=IGUAL 
+","=COMA 
+"{"=LLAVA
+"}"=LLAVC
+"?"=INTERROGACION
+":"=DSPNTS
+
+
+"+"               =  MAS 
+"*"                = MULTI 
+"/"                 =DIV 
+"-"                 =MENOS 
+"%"                 =MOD
+"^"                 =POT 
+
+/* OPERADORES RELACIONALES */
+">="                 =MAYORIGUAL 
+">"                 =MAYORQUE
+"<="                = MENORIGUAL 
+"<"                 =MENORQUE 
+"!="                = DIFERENTE
+
+/* OPERADORES LOGICOS */
+"&&"                 =AND 
+"||"                 =OR 
+"!"                 =NOT
+
+
+/*Palabras reservadas*/
+"evaluar"                = EVALUAR 
+"true"                 =TRUE 
+"false"                 =FALSE 
+
+"int"                 =INT 
+"double"               =  DOUBLE 
+"string"               =  STRING 
+"char"                 =CHAR 
+"boolean"               =  BOOLEAN
+
+"writeline"              =   WRITELINE
+"print"                =PRINT
+"println"              =  PRINTLN
+
+"if"               =IF
+"while"            =WHILE
+"else"             =ELSE
+"break"            =BREAK
+
+"for"           = FOR
+"switch"         =   SWITCH
+"case"           = CASE
+"tostring"        =    TOSTRING
+"toupper"         =   TOUPPER
+"default"          =  DEFAULT
+
+"continue"          =  CONTINUE
+
+"run"            = RUN
+"void"            = VOID
+
+"return"           = RETURN
+
+
+
+
+
+[0-9]+("."[0-9]+)\b = DECIMAL 
+{num}=ENTERO 
+{id}=ID 
+{cadena}=   CADENA 
+{caracter}=    CARACTER 
+
+
+/*Espacios*/
+[\s\r\n\t]             {}
+\s+                   {}
+"//".*                {}
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] {}
+
+
+/* PRECEDENCIA */
+right 'INTERROGACION'
+left 'OR'
+left 'AND'
+right 'NOT' 'CASTEODOUBLE' 'CASTEOINT' 'CASTEOSTRING' 'CASTEOCHAR' 'CASTEOTIPO' 'CASTEOTOLOWER' 'CASTEOTOUPPER'
+left 'IGUALIGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE' 'MAYORIGUAL'
+left 'MAS' 'MENOS'
+left 'MULTI' 'DIV'
+left 'POT' 
+right 'MOD'
+right UMINUS
+
+
+Inicio gramatica = inicio
+
+
+inicio : instrucciones EOF  
+
+instrucciones : instrucciones instruccion  
+            | instruccion                  
+            ;
+
+instruccion : declaracion   
+            | startwith      
+            | writeline     
+            | asignacion    
+            | sent_if       
+            | sent_while     
+            | BREAK PYC    
+            | sent_switch    
+            | sent_for        
+            |  ID DECRE PYC  
+            | ID INCRE  PYC 
+            | CONTINUE PYC 
+            | funciones      
+            | llamada PYC    
+            | RETURN PYC        
+            | RETURN e PYC      
+            | error        
+            ;
+
+declaracion : tipo lista_ids IGUAL e PYC  
+            | tipo lista_ids PYC       
+            ;
+
+tipo : INT    
+    | DOUBLE   
+    | STRING    
+    | CHAR      
+    | BOOLEAN   
+    ;
+
+lista_ids : lista_ids COMA ID   
+        | ID                    
+        ;
+
+writeline : PRINTLN PARA e PARC PYC 
+        |  PRINT PARA e PARC PYC 
+        ;
+
+asignacion : ID IGUAL e PYC  
+            ;
+
+sent_if : IF PARA e PARC LLAVA instrucciones LLAVC 
+        | IF PARA e PARC LLAVA instrucciones LLAVC ELSE LLAVA instrucciones LLAVC 
+        | IF PARA e PARC LLAVA instrucciones LLAVC ELSE sent_if 
+        ;
+
+sent_while : WHILE PARA e PARC LLAVA instrucciones LLAVC 
+            ;
+
+sent_for : FOR PARA dec_asig_for PYC e PYC actualizacion_for PARC LLAVA instrucciones LLAVC
+        ;
+dec_asig_for : tipo ID IGUAL e
+            | ID IGUAL e        
+            ;
+
+actualizacion_for : ID DECRE 
+                | ID INCRE  
+                | ID IGUAL e
+                ;
+
+sent_switch : SWITCH PARA e PARC LLAVA caselist LLAVC           
+            | SWITCH PARA e PARC LLAVA caselist default LLAVC   
+            | SWITCH PARA e PARC LLAVA default LLAVC            
+            ;
+
+caselist : caselist caso         
+        | caso                  
+        ;
+
+caso : CASE e DSPNTS instrucciones 
+    ;
+
+default : DEFAULT DSPNTS instrucciones 
+        ;
+
+funciones 
+        : ID PARA lista_params PARC DSPNTS tipo LLAVA instrucciones LLAVC 
+        | ID PARA  PARC DSPNTS tipo LLAVA instrucciones LLAVC              
+        | ID PARA lista_params PARC DSPNTS VOID LLAVA instrucciones LLAVC   
+        | ID PARA  PARC DSPNTS VOID LLAVA instrucciones LLAVC               
+        ;
+
+lista_params : lista_params COMA tipo ID        
+             | tipo ID                          
+             ;
+
+llamada : ID PARA lista_vals PARC 
+        | ID PARA  PARC          
+        ; 
+
+lista_vals : lista_vals COMA e         
+        | e                            
+        ; 
+
+startwith :  RUN  llamadaeee PYC    
+        ;
+
+llamadaeee : ID PARA lista_vals PARC
+        | ID PARA  PARC         
+        ;   
+
+e : e MAS e         
+    | e MENOS e      
+    | e MULTI e     
+    | e DIV e        
+    | e POT e        
+    | e MOD e        
+    | e MAYORIGUAL e  
+    | e MAYORQUE e  
+    | e MENORIGUAL e 
+    | e MENORQUE e
+    | e IGUALIGUAL e 
+    | e DIFERENTE e 
+    | e AND e       
+    | e OR e      
+    | NOT e          
+    | CASTEODOUBLE e     
+    | CASTEOINT e 
+    | CASTEOSTRING PARA e PARC
+    | CASTEOCHAR e 
+    | CASTEOTIPO PARA e PARC 
+    | CASTEOTOLOWER PARA e PARC 
+    | CASTEOTOUPPER PARA e PARC 
+    | LENGTH PARA e PARC
+    | MENOS e %prec UMINUS    
+    | PARA e PARC      
+    | DECIMAL        
+    | ENTERO            
+    | ID                
+    | CADENA            
+    | CARACTER          
+    | TRUE             
+    | FALSE            
+    | e INTERROGACION e DSPNTS e 
+    | ID INCRE
+    | ID DECRE        
+    | llamada            
+    ;
+
