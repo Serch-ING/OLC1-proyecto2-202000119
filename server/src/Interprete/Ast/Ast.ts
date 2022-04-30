@@ -16,7 +16,7 @@ export default class Ast implements Instruccion{
 
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-
+        
         //1era pasada vamos a guardar las funciones y metodos del programa
         for(let instruccion of this.lista_instrucciones){
             if(instruccion instanceof Funcion){
@@ -25,20 +25,27 @@ export default class Ast implements Instruccion{
             }
         }
 
-        //buscar metodo run
+        //2 da pasada. ejecutar las declaraciones de variables
         for(let instruccion of this.lista_instrucciones){
-            if(instruccion instanceof StartWith ){
+            if(instruccion instanceof Declaracion){
+                instruccion.ejecutar(controlador,ts);
+            }
+        }
+
+        //3ra pada. ejecutamos todas las demas instrucciones
+        for(let instruccion of this.lista_instrucciones){
+            if(instruccion instanceof StartWith){
                 instruccion.ejecutar(controlador,ts);
                 break;
             }
         }
 
-        //3ra pada. ejecutamos todas las demas instrucciones
-        for(let instruccion of this.lista_instrucciones){   
-            if(!(instruccion instanceof Funcion) && !(instruccion instanceof StartWith)){
+        for(let instruccion of this.lista_instrucciones){
+            if(!(instruccion instanceof Declaracion) && !(instruccion instanceof Funcion) && !(instruccion instanceof StartWith)){
                 instruccion.ejecutar(controlador,ts);
             }
         }
+          
     }
 
     recorrer(): Nodo {
