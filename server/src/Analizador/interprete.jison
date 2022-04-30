@@ -180,7 +180,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 %right 'INTERROGACION'
 %left 'OR'
 %left 'AND'
-%right 'NOT' 'CASTEODOUBLE' 'CASTEOINT' 'CASTEOSTRING' 'CASTEOCHAR' 'CASTEOTIPO'
+%right 'NOT' 'CASTEODOUBLE' 'CASTEOINT' 'CASTEOSTRING' 'CASTEOCHAR' 'CASTEOTIPO' 'CASTEOTOLOWER' 'CASTEOTOUPPER'
 %left 'IGUALIGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE' 'MAYORIGUAL'
 %left 'MAS' 'MENOS'
 %left 'MULTI' 'DIV'
@@ -331,7 +331,9 @@ e : e MAS e         { $$ = new aritmetica.default($1, '+', $3, @1.first_line, @1
     | CASTEOINT e  { $$ = new logica.default($2, '(int)', null, @1.first_line, @1.last_column,true); }
     | CASTEOSTRING PARA e PARC { $$ = new logica.default($3, '(string)', null, @1.first_line, @1.last_column,true); }
     | CASTEOCHAR e  { $$ = new logica.default($2, '(char)', null, @1.first_line, @1.last_column,true); } 
-    | CASTEOTIPO PARA e PARC { $$ = new logica.default($3, '(tipo)', null, @1.first_line, @1.last_column,true); }
+    | CASTEOTIPO PARA e PARC { $$ = new logica.default($3, '(tipo)', null, @1.first_line, @1.last_column,true); } 
+    | CASTEOTOLOWER PARA e PARC { $$ = new logica.default($3, '(lower)', null, @1.first_line, @1.last_column,true); } 
+    | CASTEOTOUPPER PARA e PARC { $$ = new logica.default($3, '(upper)', null, @1.first_line, @1.last_column,true); } 
     | MENOS e %prec UMINUS    { $$ = new aritmetica.default($2, 'UNARIO', null, @1.first_line, @1.last_column,true); }
     | PARA e PARC       { $$ = $2; }
     | DECIMAL           { $$ = new primitivo.default(Number($1), 'DOBLE', @1.first_line, @1.last_column); }

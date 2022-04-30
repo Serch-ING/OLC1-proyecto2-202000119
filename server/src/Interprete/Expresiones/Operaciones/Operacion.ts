@@ -28,7 +28,9 @@ export enum Operador{
     CASTEODOUBLE,
     CASTEOCHAR,
     CASTEOSTRING, 
-    CASTEOTIPO, 
+    CASTEOTIPO,
+    UPPER,
+    LOWER, 
     X
 
 }
@@ -115,6 +117,10 @@ export default class Operacion implements Expresion{
             return Operador.CASTEOSTRING;
         }else if(signo_operador == '(tipo)'){
             return Operador.CASTEOTIPO;
+        }else if(signo_operador == '(lower)'){
+            return Operador.LOWER;
+        }else if(signo_operador == '(upper)'){
+            return Operador.UPPER;
         }else{
             return Operador.X;
         }

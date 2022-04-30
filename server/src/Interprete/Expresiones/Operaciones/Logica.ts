@@ -47,6 +47,7 @@ export default class Logica extends Operacion implements Expresion{
 
             tipo_expU = this.exp1.getTipo(controlador,ts);
             //console.log("PASO 1 -" + tipo_expU + " " + this.exp1.getValor(controlador,ts));
+            
             tipo_exp1 = tipo.ERROR;
             tipo_exp2 = tipo.ERROR;
     
@@ -69,31 +70,40 @@ export default class Logica extends Operacion implements Expresion{
             }
         }else{
 
-            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO)
+            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO || this.operador == Operador.UPPER ||  this.operador == Operador.LOWER)
 
-            switch (this.operador) {
-                case Operador.CASTEOINT:
-                    return tipo.ENTERO;
-                    break;
-    
-                case Operador.CASTEODOUBLE:
-                    return tipo.DOBLE;
-                    break;
-    
-                case Operador.CASTEOSTRING:
-                    return tipo.CADENA;
-                    break;
-    
-                case Operador.CASTEOCHAR:
-                    return tipo.CARACTER;
-                    break;
-                
-                case Operador.CASTEOTIPO:
-                    return tipo.CADENA;
-                    break;
-                default:
-                    return tipo.ERROR;
-                    break;
+                switch (this.operador) {
+                    case Operador.CASTEOINT:
+                        return tipo.ENTERO;
+                        break;
+        
+                    case Operador.CASTEODOUBLE:
+                        return tipo.DOBLE;
+                        break;
+        
+                    case Operador.CASTEOSTRING:
+                        return tipo.CADENA;
+                        break;
+        
+                    case Operador.CASTEOCHAR:
+                        return tipo.CARACTER;
+                        break;
+                    
+                    case Operador.CASTEOTIPO:
+                        return tipo.CADENA;
+                        break;
+
+                    case Operador.UPPER:
+                        return tipo.CADENA;
+                        break;
+                        
+                    case Operador.LOWER:
+                        return tipo.CADENA;
+                        break;
+
+                    default:
+                        return tipo.ERROR;
+                        break;
             }else{
                 
                 if(tipo_expU == tipo.BOOLEANO){
@@ -110,6 +120,7 @@ export default class Logica extends Operacion implements Expresion{
     }
 
     getValor(controlador: Controlador, ts: TablaSimbolos) {
+        
         let valor_exp1;
         let valor_exp2;
         let valor_expU;
@@ -192,7 +203,6 @@ export default class Logica extends Operacion implements Expresion{
                     return null;
                 }
                 break;
-
             case Operador.CASTEOINT:
                 if(tipo_expU == tipo.CARACTER || tipo_expU == tipo.DOBLE){
 
@@ -209,7 +219,6 @@ export default class Logica extends Operacion implements Expresion{
                     return null;
                 }
                 break;
-
             case Operador.CASTEODOUBLE:
                
                 if(tipo_expU == tipo.CARACTER || tipo_expU == tipo.ENTERO){
@@ -228,7 +237,6 @@ export default class Logica extends Operacion implements Expresion{
                     return null;
                 }
                 break;
-
             case Operador.CASTEOSTRING:
                 if(tipo_expU == tipo.ENTERO || tipo_expU == tipo.DOBLE || tipo_expU == tipo.BOOLEANO){
 
@@ -241,7 +249,6 @@ export default class Logica extends Operacion implements Expresion{
                     return null;
                 }
                 break;
-
             case Operador.CASTEOCHAR:
                 if(tipo_expU == tipo.ENTERO ){
                     tipo_expU = tipo.CARACTER;
@@ -253,8 +260,7 @@ export default class Logica extends Operacion implements Expresion{
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
                 }
-                break;
-            
+                break;           
             case Operador.CASTEOTIPO:
 
                 try {
@@ -285,6 +291,28 @@ export default class Logica extends Operacion implements Expresion{
 
                 }
                 
+                break;
+
+            case Operador.UPPER:
+                try {
+                    return valor_expU.toUpperCase();
+                } catch (errror) {
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;
+
+            case Operador.LOWER:
+                try {
+                    return valor_expU.toLowerCase();
+                } catch (errror) {
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
                 break;
            
         }
