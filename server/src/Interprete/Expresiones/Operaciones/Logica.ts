@@ -70,7 +70,7 @@ export default class Logica extends Operacion implements Expresion{
             }
         }else{
 
-            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO || this.operador == Operador.UPPER ||  this.operador == Operador.LOWER)
+            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO || this.operador == Operador.UPPER ||  this.operador == Operador.LOWER || this.operador == Operador.LENGHT)
 
                 switch (this.operador) {
                     case Operador.CASTEOINT:
@@ -100,7 +100,11 @@ export default class Logica extends Operacion implements Expresion{
                     case Operador.LOWER:
                         return tipo.CADENA;
                         break;
-
+                    
+                    case Operador.LENGHT:
+                            return tipo.ENTERO;
+                            break;
+                    
                     default:
                         return tipo.ERROR;
                         break;
@@ -314,6 +318,18 @@ export default class Logica extends Operacion implements Expresion{
                     return null;
                 }
                 break;
+
+            case Operador.LENGHT:
+                if(tipo_expU == tipo.CADENA){
+
+                    return  valor_expU.length;        
+
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
            
         }
     }

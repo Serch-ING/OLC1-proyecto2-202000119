@@ -31,6 +31,7 @@ export enum Operador{
     CASTEOTIPO,
     UPPER,
     LOWER, 
+    LENGHT,
     X
 
 }
@@ -121,6 +122,8 @@ export default class Operacion implements Expresion{
             return Operador.LOWER;
         }else if(signo_operador == '(upper)'){
             return Operador.UPPER;
+        }else if(signo_operador == '(length)'){
+            return Operador.LENGHT;
         }else{
             return Operador.X;
         }

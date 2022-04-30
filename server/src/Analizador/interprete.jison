@@ -34,6 +34,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "typeOf"  { console.log("Reconocio : "+ yytext); return 'CASTEOTIPO'}
 "toLower"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOLOWER'}
 "toUpper"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOUPPER'}
+"length"  { console.log("Reconocio : "+ yytext); return 'LENGTH'}
 /* Simbolos del programa */
 
 "--"                  { console.log("Reconocio : " + yytext);  return 'DECRE' } 
@@ -334,6 +335,7 @@ e : e MAS e         { $$ = new aritmetica.default($1, '+', $3, @1.first_line, @1
     | CASTEOTIPO PARA e PARC { $$ = new logica.default($3, '(tipo)', null, @1.first_line, @1.last_column,true); } 
     | CASTEOTOLOWER PARA e PARC { $$ = new logica.default($3, '(lower)', null, @1.first_line, @1.last_column,true); } 
     | CASTEOTOUPPER PARA e PARC { $$ = new logica.default($3, '(upper)', null, @1.first_line, @1.last_column,true); } 
+    | LENGTH PARA e PARC { $$ = new logica.default($3, '(length)', null, @1.first_line, @1.last_column,true); } 
     | MENOS e %prec UMINUS    { $$ = new aritmetica.default($2, 'UNARIO', null, @1.first_line, @1.last_column,true); }
     | PARA e PARC       { $$ = $2; }
     | DECIMAL           { $$ = new primitivo.default(Number($1), 'DOBLE', @1.first_line, @1.last_column); }
