@@ -27,14 +27,21 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "//".*              {/*Ignoramos los comentarios simples*/}   id++
 "/*"((\*+[^/*])|([^*]))*\**"*/"     {/*Ignorar comentarios con multiples lneas*/} 
 
-
+"(int)"  { console.log("Reconocio : "+ yytext); return 'CASTEOINT'}
+"(double)"  { console.log("Reconocio : "+ yytext); return 'CASTEODOUBLE'}
+"toString"  { console.log("Reconocio : "+ yytext); return 'CASTEOSTRING'}
+"(char)"  { console.log("Reconocio : "+ yytext); return 'CASTEOCHAR'}
+"typeOf"  { console.log("Reconocio : "+ yytext); return 'CASTEOTIPO'}
+"toLower"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOLOWER'}
+"toUpper"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOUPPER'}
+"length"  { console.log("Reconocio : "+ yytext); return 'LENGTH'}
 /* Simbolos del programa */
 
 "--"                  { console.log("Reconocio : " + yytext);  return 'DECRE' } 
 "++"                  { console.log("Reconocio : " + yytext);  return 'INCRE' } 
 "=="                  { console.log("Reconocio : " + yytext);  return 'IGUALIGUAL' } 
 "^"                  { console.log("Reconocio : " + yytext);  return 'POT' } 
-"!"                  { console.log("Reconocio : " + yytext);  return 'NOT' } 
+
 "%"                  { console.log("Reconocio : " + yytext);  return 'MOD' } 
 "("                  { console.log("Reconocio : " + yytext);  return 'PARA' } 
 ")"                  { console.log("Reconocio : " + yytext);  return 'PARC' } 
@@ -68,6 +75,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "||"                  { console.log("Reconocio : " + yytext);  return 'OR' } 
 "!"                  { console.log("Reconocio : " + yytext);  return 'NOT' }
 
+
 /*Palabras reservadas*/
 "evaluar"                  { console.log("Reconocio : " + yytext);  return 'EVALUAR' } 
 "true"                  { console.log("Reconocio : " + yytext);  return 'TRUE' } 
@@ -97,8 +105,6 @@ caracter         (\'({escape2} | {aceptacion2})\')
 
 "continue"            { console.log("Reconocio : "+ yytext); return 'CONTINUE'}
 
-"start"            { console.log("Reconocio : "+ yytext); return 'START'}
-"with"            { console.log("Reconocio : "+ yytext); return 'WITH'}
 "run"            { console.log("Reconocio : "+ yytext); return 'RUN'}
 "void"            { console.log("Reconocio : "+ yytext); return 'VOID'}
 
@@ -137,47 +143,45 @@ caracter         (\'({escape2} | {aceptacion2})\')
 
 // area de imports
 %{
-    const evaluar = require('../Interprete/Evaluar');
-    const aritmetica = require('../Interprete/Expresiones/Operaciones/Aritmetica');
-    const primitivo = require('../Interprete/Expresiones/Primitivo');
+        const evaluar = require('../Interprete/Evaluar');
+        const aritmetica = require('../Interprete/Expresiones/Operaciones/Aritmetica');
+        const primitivo = require('../Interprete/Expresiones/Primitivo');
 
-    const writeline = require('../Interprete/Instrucciones/WriteLine')
-    const declaracion = require('../Interprete/Instrucciones/Declaracion')
-    const ast = require('../Interprete/Ast/Ast')
-    const tipo = require('../Interprete/TablaSimbolos/Tipo')
-    const identificador = require('../Interprete/Expresiones/Identificador')
+        const writeline = require('../Interprete/Instrucciones/WriteLine')
+        const declaracion = require('../Interprete/Instrucciones/Declaracion')
+        const ast = require('../Interprete/Ast/Ast')
+        const tipo = require('../Interprete/TablaSimbolos/Tipo')
+        const identificador = require('../Interprete/Expresiones/Identificador')
 
-    const relacional = require('../Interprete/Expresiones/Operaciones/Relacional');
-    const logica = require('../Interprete/Expresiones/Operaciones/Logica');
+        const relacional = require('../Interprete/Expresiones/Operaciones/Relacional');
+        const logica = require('../Interprete/Expresiones/Operaciones/Logica');
 
-    const asignacion = require('../Interprete/Instrucciones/Asignacion');
-    const Ifs = require('../Interprete/Instrucciones/SentenciasControl/Ifs');
-    const While = require('../Interprete/Instrucciones/SentenciasCiclica/While');
-    const ternario = require('../Interprete/Expresiones/Ternario');
-    const detener = require('../Interprete/Instrucciones/SentenciasTransferencia/Break');
+        const asignacion = require('../Interprete/Instrucciones/Asignacion');
+        const Ifs = require('../Interprete/Instrucciones/SentenciasControl/Ifs');
+        const While = require('../Interprete/Instrucciones/SentenciasCiclica/While');
+        const ternario = require('../Interprete/Expresiones/Ternario');
+        const detener = require('../Interprete/Instrucciones/SentenciasTransferencia/Break');
 
-    const Switch = require('../Interprete/Instrucciones/SentenciasControl/Switch');
-    const caso = require('../Interprete/Instrucciones/SentenciasControl/Caso'); 
-    const For = require('../Interprete/Instrucciones/SentenciasCiclica/For');
+        const Switch = require('../Interprete/Instrucciones/SentenciasControl/Switch');
+        const caso = require('../Interprete/Instrucciones/SentenciasControl/Caso'); 
+        const For = require('../Interprete/Instrucciones/SentenciasCiclica/For');
 
-    const continuar = require('../Interprete/Instrucciones/SentenciasTransferencia/Continue');
+        const continuar = require('../Interprete/Instrucciones/SentenciasTransferencia/Continue');
 
-     const funcion = require('../Interprete/Instrucciones/Funcion');
-     const llamada = require('../Interprete/Instrucciones/Llamada');
-     const startwith = require('../Interprete/Instrucciones/StartWith');
-      const simbolo = require('../Interprete/TablaSimbolos/Simbolo')
-      const retorno = require('../Interprete/Instrucciones/SentenciasTransferencia/Return');
+        const funcion = require('../Interprete/Instrucciones/Funcion');
+        const llamada = require('../Interprete/Instrucciones/Llamada');
+        const startwith = require('../Interprete/Instrucciones/StartWith');
+        const simbolo = require('../Interprete/TablaSimbolos/Simbolo')
+        const retorno = require('../Interprete/Instrucciones/SentenciasTransferencia/Return');
 
-
-
-       const errores = require('../Interprete/Ast/Errores')
+        const errores = require('../Interprete/Ast/Errores')
 %}
 
 /* PRECEDENCIA */
 %right 'INTERROGACION'
 %left 'OR'
 %left 'AND'
-%right 'NOT'
+%right 'NOT' 'CASTEODOUBLE' 'CASTEOINT' 'CASTEOSTRING' 'CASTEOCHAR' 'CASTEOTIPO' 'CASTEOTOLOWER' 'CASTEOTOUPPER'
 %left 'IGUALIGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE' 'MAYORIGUAL'
 %left 'MAS' 'MENOS'
 %left 'MULTI' 'DIV'
@@ -212,9 +216,9 @@ instruccion : declaracion   { $$ =  $1; }
             | llamada PYC   { $$ = $1; } 
             | RETURN PYC        { $$ = new retorno.default(null); } 
             | RETURN e PYC      { $$ = new retorno.default($2); } 
-            | error         { console.log("Error Sintactico" + yytext 
-                                    + "linea: " + this._$.first_line 
-                                    + "columna: " + this._$.first_column); 
+            | error         { console.log("Error Sintactico: " + yytext 
+                                    + " linea: " + this._$.first_line 
+                                    + " columna: " + this._$.first_column); 
                         
                                 new errores.default("Sintactico", "No se esperaba el caracter "+ yytext , 
                                                 this._$.first_line ,this._$.first_column);            
@@ -324,6 +328,14 @@ e : e MAS e         { $$ = new aritmetica.default($1, '+', $3, @1.first_line, @1
     | e AND e       { $$ = new logica.default($1, '&&', $3, @1.first_line, @1.last_column,false); }
     | e OR e       { $$ = new logica.default($1, '||', $3, @1.first_line, @1.last_column,false); }
     | NOT e          { $$ = new logica.default($2, '!', null, @1.first_line, @1.last_column,true); }
+    | CASTEODOUBLE e     { $$ = new logica.default($2, '(double)', null, @1.first_line, @1.last_column,true); }
+    | CASTEOINT e  { $$ = new logica.default($2, '(int)', null, @1.first_line, @1.last_column,true); }
+    | CASTEOSTRING PARA e PARC { $$ = new logica.default($3, '(string)', null, @1.first_line, @1.last_column,true); }
+    | CASTEOCHAR e  { $$ = new logica.default($2, '(char)', null, @1.first_line, @1.last_column,true); } 
+    | CASTEOTIPO PARA e PARC { $$ = new logica.default($3, '(tipo)', null, @1.first_line, @1.last_column,true); } 
+    | CASTEOTOLOWER PARA e PARC { $$ = new logica.default($3, '(lower)', null, @1.first_line, @1.last_column,true); } 
+    | CASTEOTOUPPER PARA e PARC { $$ = new logica.default($3, '(upper)', null, @1.first_line, @1.last_column,true); } 
+    | LENGTH PARA e PARC { $$ = new logica.default($3, '(length)', null, @1.first_line, @1.last_column,true); } 
     | MENOS e %prec UMINUS    { $$ = new aritmetica.default($2, 'UNARIO', null, @1.first_line, @1.last_column,true); }
     | PARA e PARC       { $$ = $2; }
     | DECIMAL           { $$ = new primitivo.default(Number($1), 'DOBLE', @1.first_line, @1.last_column); }
@@ -337,6 +349,8 @@ e : e MAS e         { $$ = new aritmetica.default($1, '+', $3, @1.first_line, @1
     | ID INCRE          { $$ = new aritmetica.default(new identificador.default($1, @1.first_line, @1.last_column), '+', new primitivo.default(1, 'ENTERO', @1.first_line, @1.last_column), @1.first_line, @1.last_column, false); }
     | ID DECRE          { $$ = new aritmetica.default(new identificador.default($1, @1.first_line, @1.last_column), '-', new primitivo.default(1, 'ENTERO', @1.first_line, @1.last_column), @1.first_line, @1.last_column, false); }
     | llamada           { $$ = $1; } 
+
+
  
     ;
 

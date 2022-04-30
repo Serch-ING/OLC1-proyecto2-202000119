@@ -1,0 +1,22 @@
+//1era pasada vamos a guardar las funciones y metodos del programa
+        for(let instruccion of this.lista_instrucciones){
+            if(instruccion instanceof Funcion){
+                let funcion = instruccion as Funcion;
+                funcion.agregarFuncionTS(ts);
+            }
+        }
+
+        //buscar metodo run
+        for(let instruccion of this.lista_instrucciones){
+            if(instruccion instanceof StartWith ){
+                instruccion.ejecutar(controlador,ts);
+                break;
+            }
+        }
+
+        //3ra pada. ejecutamos todas las demas instrucciones
+        for(let instruccion of this.lista_instrucciones){   
+            if(!(instruccion instanceof Funcion) && !(instruccion instanceof StartWith)){
+                instruccion.ejecutar(controlador,ts);
+            }
+        }

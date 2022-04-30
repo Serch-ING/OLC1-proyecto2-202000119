@@ -1,0 +1,34 @@
+int entero = 100;
+double doble = 112.12;
+string cadena = "hola mundo";
+char letra = 'a';
+boolean boleano = true;
+
+
+println(entero);
+println(doble);
+println(cadena);
+println(letra);
+
+
+println("-----------------------------------------------");
+println(! boleano );
+println("-----------------------------------------------");
+println((double) letra );
+println((double) entero );
+println("-----------------------------------------------");
+println((int) letra );
+println((int) doble );
+println("-----------------------------------------------");
+println(toString(entero) );
+println(toString(doble) );
+println(toString(boleano) );
+println("-----------------------------------------------");
+println((char) entero );
+
+println("-----------------------------------------------");
+println(typeOf(entero) );
+println(typeOf(doble) );
+println(typeOf(boleano) );
+println(typeOf(letra) );
+println(typeOf(cadena) );

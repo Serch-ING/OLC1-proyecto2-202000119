@@ -16,7 +16,7 @@ export default class Ast implements Instruccion{
 
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-        let bandera_startwith = false;
+        
         //1era pasada vamos a guardar las funciones y metodos del programa
         for(let instruccion of this.lista_instrucciones){
             if(instruccion instanceof Funcion){
@@ -24,9 +24,7 @@ export default class Ast implements Instruccion{
                 funcion.agregarFuncionTS(ts);
             }
         }
-        // Vamos a recorrer las instrucciones que vengan desde la gramatica 
-        // writeline(x);
-        // int x = 9;
+
         //2 da pasada. ejecutar las declaraciones de variables
         for(let instruccion of this.lista_instrucciones){
             if(instruccion instanceof Declaracion){
@@ -36,21 +34,18 @@ export default class Ast implements Instruccion{
 
         //3ra pada. ejecutamos todas las demas instrucciones
         for(let instruccion of this.lista_instrucciones){
-            if(instruccion instanceof StartWith && !bandera_startwith){
+            if(instruccion instanceof StartWith){
                 instruccion.ejecutar(controlador,ts);
-                bandera_startwith = true;
-                continue;
-            }else if(bandera_startwith){
-                //error solo se puede tener un start with  
-
-                //start with suma(2,3);
-                //start with resta(8,5);
-            }
-            
-            if(!(instruccion instanceof Declaracion) && !(instruccion instanceof Funcion)){
-                //instruccion.ejecutar(controlador,ts);
+                break;
             }
         }
+
+        for(let instruccion of this.lista_instrucciones){
+            if(!(instruccion instanceof Declaracion) && !(instruccion instanceof Funcion) && !(instruccion instanceof StartWith)){
+                instruccion.ejecutar(controlador,ts);
+            }
+        }
+          
     }
 
     recorrer(): Nodo {

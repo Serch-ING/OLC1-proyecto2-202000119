@@ -1,0 +1,16 @@
+println("Ackerman 3, 5: " + ackerman(3, 5));  // 253
+println("Ackerman 3, 4: " + ackerman(3, 4));  // 125
+println("Ackerman 3, 3: " + ackerman(3, 3));  // 61
+println("Ackerman 3, 2: " + ackerman(3, 2));  // 29
+println("Ackerman 3, 1: " + ackerman(3, 1));  // 13
+println("Ackerman 3, 0: " + ackerman(3, 0));  // 5
+
+ackerman(int m, int n): int{
+    if (m == 0) {
+        return n + 1;
+    } else if (m > 0 && n == 0) {
+        return ackerman(m - 1, 1);
+    } else {
+        return ackerman(m - 1, ackerman(m, n - 1));
+    }
+}

@@ -42,6 +42,11 @@ export default class Declaracion implements Instruccion{
                 let tipo_valor = this.expresion.getTipo(controlador, ts); //ENTERO
                 let valor = this.expresion.getValor(controlador,ts); //0
 
+                console.log("----------------------------")
+                console.log( this.type.enum_tipo);
+                console.log(tipo_valor);
+                console.log(valor);
+
                 if(tipo_valor == this.type.enum_tipo) {
                     let nuevo_simbolo = new Simbolo(1, this.type, id, valor);
                     ts.agregar(id, nuevo_simbolo);

@@ -1,0 +1,17 @@
+int numero = 5;
+
+println("Resultado de factorial de " + numero + " es: " + factorial(numero));
+
+factorial(int numero): int {
+    if (numero > 1) {
+        return numero * factorial(numero - 1);
+    }
+    return numero;
+}
+
+//numero = "50";  Error Semantico
+
+string numeroString = toString(numero); // numeroString = "5"; 
+
+println(typeOf(numero)); // int
+println(typeOf(numeroString)); // string

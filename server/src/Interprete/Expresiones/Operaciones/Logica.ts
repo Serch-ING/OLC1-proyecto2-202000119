@@ -1,3 +1,4 @@
+import e from "express";
 import Errores from "../../Ast/Errores";
 import Nodo from "../../Ast/Nodo";
 import Controlador from "../../Controlador";
@@ -18,6 +19,7 @@ export default class Logica extends Operacion implements Expresion{
 
 
     getTipo(controlador: Controlador, ts: TablaSimbolos): tipo {
+        
         let tipo_exp1 : tipo;
         let tipo_exp2 : tipo; 
         let tipo_expU : tipo;
@@ -41,7 +43,11 @@ export default class Logica extends Operacion implements Expresion{
      
     
         }else{ 
+           
+
             tipo_expU = this.exp1.getTipo(controlador,ts);
+            //console.log("PASO 1 -" + tipo_expU + " " + this.exp1.getValor(controlador,ts));
+            
             tipo_exp1 = tipo.ERROR;
             tipo_exp2 = tipo.ERROR;
     
@@ -50,6 +56,8 @@ export default class Logica extends Operacion implements Expresion{
             /** segun el enununciado 
              * Se comparan simbolos a nivel logico -> verdadero o falso 
              */
+            
+       // console.log("valor: " + this.exp1.getValor(controlador,ts));
         if(this.expU == false){ 
             if(tipo_exp1 == tipo.BOOLEANO){
                 if(tipo_exp2 == tipo.BOOLEANO){
@@ -60,13 +68,55 @@ export default class Logica extends Operacion implements Expresion{
             }else{
                return tipo.ERROR;
             }
-        }else{// !true
-            //sera unario cuando el operador sea NOT
-            if(tipo_expU == tipo.BOOLEANO){
-                return tipo.BOOLEANO;
+        }else{
+
+            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO || this.operador == Operador.UPPER ||  this.operador == Operador.LOWER || this.operador == Operador.LENGHT)
+
+                switch (this.operador) {
+                    case Operador.CASTEOINT:
+                        return tipo.ENTERO;
+                        break;
+        
+                    case Operador.CASTEODOUBLE:
+                        return tipo.DOBLE;
+                        break;
+        
+                    case Operador.CASTEOSTRING:
+                        return tipo.CADENA;
+                        break;
+        
+                    case Operador.CASTEOCHAR:
+                        return tipo.CARACTER;
+                        break;
+                    
+                    case Operador.CASTEOTIPO:
+                        return tipo.CADENA;
+                        break;
+
+                    case Operador.UPPER:
+                        return tipo.CADENA;
+                        break;
+                        
+                    case Operador.LOWER:
+                        return tipo.CADENA;
+                        break;
+                    
+                    case Operador.LENGHT:
+                            return tipo.ENTERO;
+                            break;
+                    
+                    default:
+                        return tipo.ERROR;
+                        break;
             }else{
-                return tipo.ERROR;
-            }
+                
+                if(tipo_expU == tipo.BOOLEANO){
+                    return tipo.BOOLEANO;  
+                }else{
+                    return tipo.ERROR;
+                }
+            }  
+
         }
                 
         return tipo.ERROR;
@@ -74,6 +124,7 @@ export default class Logica extends Operacion implements Expresion{
     }
 
     getValor(controlador: Controlador, ts: TablaSimbolos) {
+        
         let valor_exp1;
         let valor_exp2;
         let valor_expU;
@@ -82,7 +133,7 @@ export default class Logica extends Operacion implements Expresion{
         let tipo_exp2 : tipo;
         let tipo_expU : tipo;
 
-       
+ 
         if(this.expU == false){
              /** 
              *  Ejemplo 
@@ -156,6 +207,130 @@ export default class Logica extends Operacion implements Expresion{
                     return null;
                 }
                 break;
+            case Operador.CASTEOINT:
+                if(tipo_expU == tipo.CARACTER || tipo_expU == tipo.DOBLE){
+
+                    if(tipo_expU == tipo.CARACTER){
+                        return valor_expU.charCodeAt(0);; 
+                    }else{
+                        return valor_expU | 0;
+                    }
+                    
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;
+            case Operador.CASTEODOUBLE:
+               
+                if(tipo_expU == tipo.CARACTER || tipo_expU == tipo.ENTERO){
+
+                    if(tipo_expU == tipo.CARACTER){
+                        let temporal = valor_expU.charCodeAt(0);
+                        return (temporal); 
+                    }else{
+                        return (valor_expU);
+                    }
+                    
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;
+            case Operador.CASTEOSTRING:
+                if(tipo_expU == tipo.ENTERO || tipo_expU == tipo.DOBLE || tipo_expU == tipo.BOOLEANO){
+
+                    return  valor_expU.toString();        
+
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;
+            case Operador.CASTEOCHAR:
+                if(tipo_expU == tipo.ENTERO ){
+                    tipo_expU = tipo.CARACTER;
+                    return  String.fromCharCode(valor_expU);      
+                        
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;           
+            case Operador.CASTEOTIPO:
+
+                try {
+
+                    if(tipo_expU == tipo.ENTERO){
+                        return "Int"
+                    }else if(tipo_expU == tipo.DOBLE){
+                        return "Double"
+                    }else if(tipo_expU == tipo.BOOLEANO){
+                        return "Boolean"
+                    }else if(tipo_expU == tipo.CARACTER){
+                        return "Char"
+                    }else if(tipo_expU == tipo.CADENA){
+                        return "String"
+                    }else{
+                        let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                        return null;
+                    }
+
+                        
+                } catch (errror) {
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+
+                }
+                
+                break;
+
+            case Operador.UPPER:
+                try {
+                    return valor_expU.toUpperCase();
+                } catch (errror) {
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;
+
+            case Operador.LOWER:
+                try {
+                    return valor_expU.toLowerCase();
+                } catch (errror) {
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+                break;
+
+            case Operador.LENGHT:
+                if(tipo_expU == tipo.CADENA){
+
+                    return  valor_expU.length;        
+
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+           
         }
     }
 

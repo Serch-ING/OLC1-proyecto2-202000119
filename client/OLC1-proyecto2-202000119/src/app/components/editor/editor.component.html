@@ -7,20 +7,28 @@
         
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-            <button type="button" class="btn btn-success rounded-pill" >Crear archivo</button>
+            <button type="button" class="btn btn-success rounded-pill" onclick="location.reload()">Crear archivo</button>
           </a>
         </li>
-  
+
+        
         <li class="nav-item dropdown">
+
+          <input type="file" name="avatar"  class="btn btn-primary" accept="application/CST, application/CST"  (change)="onChange($event)">
+             <!-- <pre> {{fileContent}} </pre>-->
+      </li>
+  
+        <!--<li class="nav-item dropdown">
           <a class="nav-link nav-icon">
+          
             <button  type="button" class="btn btn-success rounded-pill"  >Abrir archivo</button>
           </a>
-        </li>
+        </li>-->
   
         
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-            <button  type="button" class="btn btn-success rounded-pill" (click) = "Ejecutar()" >Guardar el archivo</button>
+            <button  type="button" class="btn btn-success rounded-pill" (click) = "download()" >Guardar Como</button>
           </a>
         </li>
   
@@ -35,7 +43,22 @@
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
 
-          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()">Reportes</button>
+          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()">Reportes Errores</button>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+
+          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()">Reportes ats</button>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon">
+
+          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()"> Reporte simbolos</button>
+          <button class="tablink" onclick="openPage('TablaSim')">Tabla de Simbolos</button>
           </a>
         </li>
   
@@ -58,3 +81,14 @@ mode="java"
 <h2>Salida</h2>
 
 <div class="salida_Ace" id='salida_Ace'  style="height:500px;"></div>
+
+<h2>REPORTE DATA</h2>
+<pre> {{Tablasimbolos}} </pre>
+
+<table>
+  <thead  class="thead-dark"><tr><td colspan="6">Tabla de Simbolos </td></tr><tr><th>Rol</th><th>Nombre</th><th>Tipo</th><th>Ambito</th><th>Valor</th><th>Parametros</th></tr></thead>
+  <tbody>
+    <tr></tr>
+  </tbody>
+</table>
+

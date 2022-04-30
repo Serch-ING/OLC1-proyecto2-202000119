@@ -1,0 +1,11 @@
+
+metoodparametros() : void{
+    int num = 10-1;
+    Print("Hola mundo!!");
+    Print("Sale compi");
+    print("metodo SIN parametros: " + num );
+}
+
+
+run metoodparametros();
+

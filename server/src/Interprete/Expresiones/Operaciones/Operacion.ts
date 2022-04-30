@@ -23,7 +23,15 @@ export enum Operador{
     MAYORIGUAL,
     OR,
     AND,
-    NOT, 
+    NOT,
+    CASTEOINT,
+    CASTEODOUBLE,
+    CASTEOCHAR,
+    CASTEOSTRING, 
+    CASTEOTIPO,
+    UPPER,
+    LOWER, 
+    LENGHT,
     X
 
 }
@@ -99,7 +107,23 @@ export default class Operacion implements Expresion{
         }else if(signo_operador == '=='){
             return Operador.IGUALIGUAL;
         }else if(signo_operador == '!='){
-            return Operador.DIFERENCIA;
+            return Operador.DIFERENCIA;  
+        }else if(signo_operador == '(int)'){
+            return Operador.CASTEOINT;
+        }else if(signo_operador == '(double)'){
+            return Operador.CASTEODOUBLE;
+        }else if(signo_operador == '(char)'){
+            return Operador.CASTEOCHAR;
+        }else if(signo_operador == '(string)'){
+            return Operador.CASTEOSTRING;
+        }else if(signo_operador == '(tipo)'){
+            return Operador.CASTEOTIPO;
+        }else if(signo_operador == '(lower)'){
+            return Operador.LOWER;
+        }else if(signo_operador == '(upper)'){
+            return Operador.UPPER;
+        }else if(signo_operador == '(length)'){
+            return Operador.LENGHT;
         }else{
             return Operador.X;
         }
