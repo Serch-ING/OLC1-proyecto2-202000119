@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditorComponent } from './editor.component';
+import { ModalAtsComponent } from './modal-ats.component';
 
-describe('EditorComponent', () => {
-  let component: EditorComponent;
-  let fixture: ComponentFixture<EditorComponent>;
-  
+describe('ModalAtsComponent', () => {
+  let component: ModalAtsComponent;
+  let fixture: ComponentFixture<ModalAtsComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditorComponent ]
+      declarations: [ ModalAtsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditorComponent);
+    fixture = TestBed.createComponent(ModalAtsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

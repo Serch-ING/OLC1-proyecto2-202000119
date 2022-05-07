@@ -1,3 +1,4 @@
+import Errores from "../../Ast/Errores";
 import Nodo from "../../Ast/Nodo";
 import Controlador from "../../Controlador";
 import { Expresion } from "../../Interfaces/Expresion";
@@ -34,7 +35,9 @@ export default class Switch implements Instruccion{
            //default: 
              //print("default");
         //}
-        let ts_local = new TablaSimbolos(ts);
+        console.log("sadsdasdsadsad")
+        console.log(this.condicion)
+        let ts_local = new TablaSimbolos(ts,ts.name);
 
         // Manejamos 2 banderas 
         let bandera_break=false; // nos indica cuando dentro de un caso vino la sentencia break
@@ -48,12 +51,14 @@ export default class Switch implements Instruccion{
                     bandera_entro_caso = true; //indicamos que entro a ejecutar un caso
                     let res:any = caso.ejecutar(controlador, ts_local);
                     if(res instanceof Break){
+                        console.log("Cometi un error")
                         bandera_break = true;
-                        return res;
+                        return null;
                     }
 
                 }
             }else {
+                controlador.errores.push(new Errores("Semantico", `no se esperaba este simbolo`, this.linea, this.column));
                 //error
             }
         }
@@ -61,15 +66,33 @@ export default class Switch implements Instruccion{
         if(!bandera_break && this.ist_default != null){
             let res:any =  this.ist_default.ejecutar(controlador, ts_local);
             if(res instanceof Break){
+                console.log("Cometi un error x2")
                 bandera_break = true;
-                return res;
+                return null;
             }
         }
 
     }
 
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Instruccion","");
+
+        let switch_var = new Nodo("Switch","");
+
+        switch_var.AddHijo(this.condicion.recorrer())
+
+        padre.AddHijo(switch_var)
+        for(let caso of this.lista_casos){
+            padre.AddHijo(caso.recorrer())
+        }
+
+        if(this.ist_default!= null){
+            let default_nodo = new Nodo("Deafault","");
+            default_nodo.AddHijo(this.ist_default.recorrer())
+            padre.AddHijo(default_nodo)
+        }
+
+        return padre;
     } 
 
 }

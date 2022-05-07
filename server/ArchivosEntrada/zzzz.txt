@@ -1,0 +1,1 @@
+int entero, entero2 = 25; 

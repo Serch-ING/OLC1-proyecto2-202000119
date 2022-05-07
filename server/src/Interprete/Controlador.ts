@@ -19,6 +19,17 @@ export default class Controlador{
         this.sent_ciclica = false;
     }
 
+    obtenererrores(){
+        var TextSalida = "";
+
+        for(let error of this.errores){
+            TextSalida+= error.tipo + ","  + error.descripcion + "," + error.linea + "," + error.columna ;
+            TextSalida += '~';
+        }
+
+        return TextSalida;
+    }
+
     print(cadena : string, tipo:boolean){
         if(tipo){
             this.consola = this.consola + cadena + " \r\n ";
@@ -40,34 +51,22 @@ export default class Controlador{
      * @returns retorna el cuerpo de la tabla de simbolos de html
      */
      graficar_ts(controlador:Controlador, ts:TablaSimbolos):string{
-        var cuerpohtml = "<thead  class=\"thead-dark\"><tr><td colspan=\"6\">Tabla de Simbolos </td></tr><tr><th>Rol</th><th>Nombre</th><th>Tipo</th><th>Ambito</th><th>Valor</th><th>Parametros</th></tr></thead>";
-
+        
+        var TextSalida = "";
+        //console.log("------------------------------------------------------------------")
         while(ts != null){
-
-           /* for(let sim of ts.tabla.values()){
-                console.log(`simbolo`);
-                
-                cuerpohtml += "<tr mdbTableCol class=\"grey lighten-1 black-text\"><th scope=\"row\">" +  this.getRol(sim) + "</th><td>" + sim.identificador + 
-                "</td><td>" + this.getTipo(sim) +"</td>"  + 
-                "</td><td>" + this.getAmbito() + 
-                "</td><td>" + this.getValor(sim) + 
-                "</td><td>" + this.parametros(sim) +"</td>" +  "</tr>";
-            }*/
-
+            //console.log(ts)
             ts.tabla.forEach((sim: Simbolo, key : string) =>{
-                cuerpohtml += "<tr ><th scope=\"row\">" +  this.getRol(sim) + "</th><td>" + sim.identificador + 
-                "</td><td>" + this.getTipo(sim) +"</td>"  + 
-                "</td><td>" + this.getAmbito() + 
-                "</td><td>" + this.getValor(sim) + 
-                "</td><td>" + this.parametros(sim) +"</td>" +  "</tr>";
+                TextSalida+= this.getRol(sim) + ","  + sim.identificador + "," + this.getTipo(sim) + "," + this.getAmbito(ts) + "," +  this.getValor(sim)  + "," +  this.parametros(sim)   + "," + sim.linea  + "," + sim.columna;
+                TextSalida += '~';
+
             })
             
-            
-            ts = ts.ant;
+            ts = ts.sig;
         }
         
-        
-        return cuerpohtml;
+        //console.log(TextSalida)
+        return TextSalida;
     }
 
     /**
@@ -92,7 +91,7 @@ export default class Controlador{
         try{
             return sim.tipo.nombre_tipo.toLowerCase();
         }catch (error) {
-            return sim.tipo.nombre_tipo;
+            return sim.tipo.toString();
         }
         
     }
@@ -132,7 +131,10 @@ export default class Controlador{
      * @function getTipo Le indicamos el ambito del simbolo 
      * @returns retorna el ambito del simbolo
      */
-    getAmbito():string{
+    getAmbito( ts:TablaSimbolos):string{
+        if(ts.name != null){
+            return ts.name;
+        }
         return 'global'
     }
 

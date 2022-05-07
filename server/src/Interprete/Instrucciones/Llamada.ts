@@ -1,3 +1,4 @@
+import Errores from "../Ast/Errores";
 import Nodo from "../Ast/Nodo";
 import Controlador from "../Controlador";
 import { Expresion } from "../Interfaces/Expresion";
@@ -30,7 +31,7 @@ export default class Llamada implements Instruccion, Expresion{
         //1. Verificar si el método existe en la tabla de símbolos.
         if(ts.existe(this.identificador)){
             //2. Crear una nueva tabla de símbolos la cual será local.
-            let ts_local = new TablaSimbolos(ts);
+            let ts_local = new TablaSimbolos(ts,ts.name);
             //3. obtener el simbolo del metodo 
             let simbolo_funcion = ts.getSimbolo(this.identificador)  as Funcion;
 
@@ -44,6 +45,7 @@ export default class Llamada implements Instruccion, Expresion{
                 }
             }
         }else{
+            controlador.errores.push(new Errores("Semantico", `No existe la funcion a llamar`, this.linea, this.columna));
             // error semantico no existe el metodo a llamar
         }
     }
@@ -56,7 +58,7 @@ export default class Llamada implements Instruccion, Expresion{
         //1. Verificar si el método existe en la tabla de símbolos.
         if(ts.existe(this.identificador)){
             //2. Crear una nueva tabla de símbolos la cual será local.
-            let ts_local = new TablaSimbolos(ts);
+            let ts_local = new TablaSimbolos(ts,ts.name);
             //3. obtener el simbolo del metodo 
             let simbolo_funcion = ts.getSimbolo(this.identificador)  as Funcion;
 
@@ -70,6 +72,7 @@ export default class Llamada implements Instruccion, Expresion{
                 }
             }
         }else{
+            controlador.errores.push(new Errores("Semantico", `No existe el metodo a llamar`, this.linea, this.columna));
             // error semantico no existe el metodo a llamar
         }
         
@@ -78,7 +81,7 @@ export default class Llamada implements Instruccion, Expresion{
     validar_parametros(parametros_llamada : Array<Expresion>, parametros_funcion: Array<Simbolo>, controlador : Controlador, ts: TablaSimbolos, ts_local: TablaSimbolos){
         /* 4. Verificar si la cantidad de parámetros en la llamada 
             es igual a la cantidad de parámetros que posee el método. */
-            console.log("validar params");
+            //console.log("validar params");
         if(parametros_llamada.length == parametros_funcion.length){
             //--> parametros desde funcion/metodo
             let aux : Simbolo; // -> parametro
@@ -109,12 +112,13 @@ export default class Llamada implements Instruccion, Expresion{
                 if(aux_tipo == aux_exp_tipo){
                       // 5. a) Si son del mismo tipo se debe de guardar cada parámetro con su valor en la tabla de símbolos local. 
                       
-                      let simbolo = new Simbolo(aux.simbolo, aux.tipo, aux_id, aux_exp_valor);
+                      let simbolo = new Simbolo(aux.simbolo, aux.tipo, aux_id, aux_exp_valor,this.linea,this.columna);
                       ts_local.agregar(aux_id, simbolo);
                 }
             }
             return true;
         }else {
+            controlador.errores.push(new Errores("Semantico", `No se esperaba este dato`, this.linea, this.columna));
             //reportamos error semantico
             return false;
         }
@@ -129,6 +133,14 @@ export default class Llamada implements Instruccion, Expresion{
         padre.AddHijo(new Nodo("(",""));
 
         //TODO: AGREGAR NODOS HIJOS DE PARAMETROS
+        if(this.parametros != []){
+            let parametros = new Nodo("Parametros","")
+            for(let para of this.parametros){
+                parametros.AddHijo(para.recorrer())
+            }
+            padre.AddHijo(parametros);
+
+        }
         
         padre.AddHijo(new Nodo(")",""));
         

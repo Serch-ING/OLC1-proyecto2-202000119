@@ -8,12 +8,18 @@ import { EditorComponent } from './components/editor/editor.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { AceEditorModule } from 'ng2-ace-editor';
+import { ModalTsimbolosComponent } from './components/modal-tsimbolos/modal-tsimbolos.component';
+import { ModalAtsComponent } from './components/modal-ats/modal-ats.component';
+import { ModalErrorComponent } from './components/modal-error/modal-error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    EditorComponent
+    EditorComponent,
+    ModalTsimbolosComponent,
+    ModalAtsComponent,
+    ModalErrorComponent
   ],
   imports: [
     BrowserModule,

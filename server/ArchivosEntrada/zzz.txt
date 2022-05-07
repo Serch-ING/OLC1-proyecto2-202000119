@@ -1,0 +1,3 @@
+int entero, entero2 = 25; 
+double decimal = 3.14; 
+string cadena = "Hola Mundo"; 

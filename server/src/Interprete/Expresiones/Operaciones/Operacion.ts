@@ -32,6 +32,8 @@ export enum Operador{
     UPPER,
     LOWER, 
     LENGHT,
+    ROUND,
+    CHARARRAY,
     X
 
 }
@@ -124,6 +126,10 @@ export default class Operacion implements Expresion{
             return Operador.UPPER;
         }else if(signo_operador == '(length)'){
             return Operador.LENGHT;
+        }else if(signo_operador == '(round)'){
+            return Operador.ROUND;
+        }else if(signo_operador == '(chararray)'){
+            return Operador.CHARARRAY;
         }else{
             return Operador.X;
         }
@@ -140,7 +146,13 @@ export default class Operacion implements Expresion{
         throw new Error("Method not implemented.");
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Condicion!","");
+        //console.log("22222222222222222")
+        //console.log(this.exp1.recorrer())
+        //console.log(this.exp2.recorrer())
+
+        return padre
+
     }
 
 }

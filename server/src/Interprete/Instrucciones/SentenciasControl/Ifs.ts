@@ -39,7 +39,7 @@ export default class Ifs implements Instruccion{
          * }
          * print(x); // 20
          */
-        let ts_local = new TablaSimbolos(ts);
+        let ts_local = new TablaSimbolos(ts,ts.name);
         let valor_condicion = this.condicion.getValor(controlador,ts); //true | false
 
         if(this.condicion.getTipo(controlador,ts) == tipo.BOOLEANO){
@@ -99,6 +99,35 @@ export default class Ifs implements Instruccion{
         return null;
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Instruccion","");
+      
+        let SI = new Nodo("IF","");
+        //console.log(this.condicion)
+        let condicion = this.condicion.recorrer()
+     
+        padre.AddHijo(SI);
+        padre.AddHijo(condicion);
+
+        let intrucicones_if = new Nodo("Intrucciones","");
+
+        for(let ins of this.lista_instrucciones_ifs){
+            intrucicones_if.AddHijo(ins.recorrer())
+        }
+        
+        padre.AddHijo(intrucicones_if);
+
+        if(this.lista_instrucciones_elses!= []){
+            let intrucicones_Else = new Nodo("Else","");
+
+                
+            for(let ins of this.lista_instrucciones_elses){
+                intrucicones_Else.AddHijo(ins.recorrer())
+            }
+            
+            padre.AddHijo(intrucicones_Else);
+        }
+
+       return padre;
+        
     }
 }

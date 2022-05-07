@@ -22,7 +22,9 @@ export default class Retorno implements Instruccion{
        
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Return","");
+        padre.AddHijo(this.valor_retorno.recorrer())
+        return padre
     } 
 
 }

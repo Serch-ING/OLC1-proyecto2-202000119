@@ -8,32 +8,22 @@
 import Simbolo from "./Simbolo";
 
 export default class TablaSimbolos{
-    
+    public name:any;
     public ant : TablaSimbolos;
     public tabla : Map<string, Simbolo>;
-    // int x, y, z = 0; 
-    // x , (x, 0, entero)
-    // y , (y, 0, entero)
-    // z , (z, 0, entero)
-
-    /**
-     * if(true){
-     *     int x, y, z, a = 5; 
-     *     // x , (x, 5, entero)
-            // y , (y, 5, entero)
-            // z , (z, 5, entero)
-     * }
-     * 
-     * print(a);
-     */
+    public sig:any;
 
     /**
      * @constructor creamos una nueva tabla.
      * @param ant indica quien es la tabla de simbolos anterior de la nueva tabla (para el manejo de ambitos)
      */
-    constructor(ant : TablaSimbolos | any) {
+    constructor(ant : TablaSimbolos | any,name?:string|any) {
         this.ant = ant;
         this.tabla = new Map<string, Simbolo>();
+        if(ant!= null){
+            ant.sig = this;
+        }
+        this.name = name
     }
 
     agregar(id: string, simbolo : Simbolo){

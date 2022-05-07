@@ -1,6 +1,8 @@
+import { Console } from "console";
 import Errores from "../../Ast/Errores";
 import Nodo from "../../Ast/Nodo";
 import Controlador from "../../Controlador";
+import Ifs from "../../Instrucciones/SentenciasControl/Ifs";
 import { Expresion } from "../../Interfaces/Expresion";
 import TablaSimbolos from "../../TablaSimbolos/TablaSimbolos";
 import { tipo } from "../../TablaSimbolos/Tipo";
@@ -105,6 +107,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                 }
                 break;
             case Operador.RESTA:
+              
                 if(tipo_exp1 == tipo.ENTERO){
                     if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.BOOLEANO || tipo_exp2 == tipo.CARACTER){
                         return tipo.ENTERO;
@@ -113,23 +116,98 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else{
                         return tipo.ERROR;
                     }
-                }// TODO: Hacer las siguientes validaciones revisando la tabla para RESTA en el enunciado 
-                break;
-            case Operador.MULTIPLICACION:
-                if(tipo_exp1 == tipo.ENTERO){
-                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.CARACTER){
+                }else if(tipo_exp1 == tipo.CARACTER){
+                   // console.log("//////AQUIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+                    if(tipo_exp2 == tipo.ENTERO ){
+                      
                         return tipo.ENTERO;
-                    }else if(tipo_exp2 == tipo.DOBLE){
-                        return tipo.DOBLE;
                     }else{
                         return tipo.ERROR;
                     }
-                }// TODO: Hacer las siguientes validaciones revisando la tabla para MULTIPLICACION en el enunciado 
+                } else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE|| tipo_exp2 == tipo.BOOLEANO || tipo_exp2 == tipo.CARACTER){
+                        return tipo.DOBLE;
+                    }else if(tipo_exp2 == tipo.CADENA){
+                        return tipo.CADENA; // 1.2 + "hola" -> "1.2hola"
+                    }
+                }else if(tipo_exp1 == tipo.BOOLEANO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE; 
+                    }else if(tipo_exp2 == tipo.CADENA){
+                        return tipo.CADENA; // true + "hola" -> "truehola"
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }
+        
+                break;
+            case Operador.MULTIPLICACION:
+                if(tipo_exp1 == tipo.ENTERO){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.BOOLEANO || tipo_exp2 == tipo.CARACTER){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE;
+                    }else if(tipo_exp2 == tipo.CADENA){
+                        return tipo.CADENA;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE|| tipo_exp2 == tipo.BOOLEANO || tipo_exp2 == tipo.CARACTER){
+                        return tipo.DOBLE;
+                    }else if(tipo_exp2 == tipo.CADENA){
+                        return tipo.CADENA; // 1.2 + "hola" -> "1.2hola"
+                    }
+                }else if(tipo_exp1 == tipo.BOOLEANO){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE; 
+                    }else if(tipo_exp2 == tipo.CADENA){
+                        return tipo.CADENA; // true + "hola" -> "truehola"
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else if(tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE; 
+                    }else if(tipo_exp2 == tipo.CADENA || tipo_exp2 == tipo.CARACTER){
+                        return tipo.CADENA; 
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else if(tipo_exp1 == tipo.CADENA){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.BOOLEANO || tipo_exp2 == tipo.CARACTER || tipo_exp2 == tipo.CADENA){
+                        return tipo.CADENA;
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }
+                
                 break;
             case Operador.DIVISION:
                 if(tipo_exp1 == tipo.ENTERO){
                     if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+
+                        if(tipo_exp2 == tipo.ENTERO ||tipo_exp2 == tipo.CARACTER){
+
+                            return tipo.ENTERO;
+                        }else{
+                            return tipo.DOBLE;
+                        }
+                       
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else   if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.CARACTER){
+
+                   
                         return tipo.DOBLE;
+                        
+                       
                     }else{
                         return tipo.ERROR;
                     }
@@ -150,6 +228,14 @@ export default class Aritmetica extends Operacion implements Expresion{
                 if(tipo_exp1 == tipo.ENTERO){
                     if(tipo_exp2 == tipo.ENTERO ){
                         return tipo.ENTERO;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return tipo.DOBLE;
+                    }else{
+                        return tipo.ERROR;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO ){
+                        return tipo.DOBLE;
                     }else if(tipo_exp2 == tipo.DOBLE){
                         return tipo.DOBLE;
                     }else{
@@ -267,6 +353,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.CADENA){
                         return valor_exp1 + valor_exp2; //true + "hola" -> "truehola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //TODO: reportar error semantico
                         return null;
                     }
@@ -282,6 +369,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.CADENA){
                         return valor_exp1 + valor_exp2; //'A' + "hola" -> "Ahola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //TODO: reportar error semantico
                         return null;
                     }
@@ -289,6 +377,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     if(tipo_exp2 == tipo.ENTERO || tipo_exp2 == tipo.DOBLE || tipo_exp2 == tipo.BOOLEANO || tipo_exp2 == tipo.CARACTER || tipo_exp2 == tipo.CADENA){
                         return valor_exp1 + valor_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //TODO: reportar error semantico
                         return null;
                     }
@@ -308,12 +397,45 @@ export default class Aritmetica extends Operacion implements Expresion{
                         return valor_exp1 - num_del_booleano;
                     }else if(tipo_exp2 == tipo.CARACTER){
                         let num_ascci = valor_exp2.charCodeAt(0);
-                        return valor_exp1 = num_ascci;
+                        return valor_exp1 - num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
-                }// TODO: Hacer las siguientes validaciones revisando la tabla para RESTA en el enunciado 
+                }else if(tipo_exp1 == tipo.CARACTER){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        let num_ascci = valor_exp1.charCodeAt(0);
+                        return num_ascci - valor_exp2;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 - valor_exp2; // 1.1 +2.5 = 3.6
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 - valor_exp2;
+                    }else if(tipo_exp2 == tipo.BOOLEANO){ 
+                        // 1 + true -> 1 + 1 = 2 
+                        let num_del_booleano = 1;
+
+                        if(valor_exp2 == false){
+                            num_del_booleano = 0;
+                        }
+                        return valor_exp1 - num_del_booleano;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        // 1.1 + 'A' -> 1.1 + 65 = 66.1
+                        let num_ascci = valor_exp2.charCodeAt(0);
+                        return valor_exp1 - num_ascci;
+                    }else if(tipo_exp2 == tipo.CADENA){
+                        return valor_exp1 - valor_exp2;
+                    }else{
+                        // 3.4 +  id (id no existe en la tabla de simblos)
+                        let error = new Errores("Semantico", `Incompatibilidad de tipos, no se puede operar la SUMA porque se produjo un error.`, this.linea, this.columna);
+                        controlador.errores.push(error);
+                        controlador.append(` *** ERROR: Semantico, Incompatibilidad de tipos, no se puede operar la SUMA porque se produjo un error. En la linea ${this.linea} y columna ${this.columna}`)
+                
+                        return null;
+                    }
+                }
                 break;
             case Operador.MULTIPLICACION:
                 if(tipo_exp1 == tipo.ENTERO){
@@ -325,6 +447,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 * num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
@@ -337,6 +460,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 * num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
@@ -352,6 +476,20 @@ export default class Aritmetica extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 / num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
+                        //reportar error semantico
+                        return null;
+                    }
+                }else if(tipo_exp1 == tipo.DOBLE){
+                    if(tipo_exp2 == tipo.ENTERO){
+                        return valor_exp1 / valor_exp2;
+                    }else if(tipo_exp2 == tipo.DOBLE){
+                        return valor_exp1 / valor_exp2;
+                    }else if(tipo_exp2 == tipo.CARACTER){
+                        let num_ascci = valor_exp2.charCodeAt(0);
+                        return valor_exp1 / num_ascci;
+                    }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
@@ -364,6 +502,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.DOBLE){
                         return valor_exp1 % valor_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
@@ -373,10 +512,12 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.DOBLE){
                         return valor_exp1 % valor_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
                 }else{
+                    controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                     //reportar error semantico
                     return null;
                 }
@@ -388,6 +529,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.DOBLE){
                         return valor_exp1 ** valor_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
@@ -397,10 +539,12 @@ export default class Aritmetica extends Operacion implements Expresion{
                     }else if(tipo_exp2 == tipo.DOBLE){
                         return valor_exp1 ** valor_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                         return null;
                     }
                 }else{
+                    controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                     //reportar error semantico
                     return null;
                 }
@@ -409,6 +553,7 @@ export default class Aritmetica extends Operacion implements Expresion{
                 if(tipo_expU == tipo.ENTERO || tipo_expU == tipo.DOBLE){
                     return -valor_expU;
                 }else{
+                    controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                     //TODO: reportar error semantico
                     return null;
                 }

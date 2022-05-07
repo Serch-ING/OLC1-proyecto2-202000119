@@ -41,6 +41,19 @@ export default class WriteLine implements Instruccion{
     }
     
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("INSTRUCCION", "");
+
+        if(this.validacion){
+            padre.AddHijo(new Nodo("println", ""));
+        }else{
+            padre.AddHijo(new Nodo("print", ""));
+        }
+
+       if(this.expresion != null){
+           padre.AddHijo(this.expresion.recorrer())
+       }
+
+       return padre;
+        
     }
 }

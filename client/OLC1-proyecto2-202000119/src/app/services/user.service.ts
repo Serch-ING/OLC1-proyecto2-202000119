@@ -1,10 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  $modalTSimb= new EventEmitter<any>();
+  $modalAts= new EventEmitter<any>();
+ 
+ 
+
   URL= "http://localhost:3000/api"
   constructor(private http:HttpClient) { }
 
@@ -16,6 +22,11 @@ export class UserService {
   setInfo(json:any){
     return this.http.post(`${this.URL}/ejecutar`,json);
   }
+
+  recorrer(json:any){
+    return this.http.post(`${this.URL}/recorrer`,json);
+  }
+
 
   getdata(){
     return this.http.get(`${this.URL}/getIncremental`);

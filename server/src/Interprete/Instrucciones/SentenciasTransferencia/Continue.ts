@@ -16,6 +16,7 @@ export default class Continue implements Instruccion{
 
 
     recorrer(): Nodo { 
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Continue","");
+        return padre
     }
 }

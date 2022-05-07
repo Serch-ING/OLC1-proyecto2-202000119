@@ -25,8 +25,9 @@ caracter         (\'({escape2} | {aceptacion2})\')
 
 /* Comentarios */
 "//".*              {/*Ignoramos los comentarios simples*/}   id++
-"/*"((\*+[^/*])|([^*]))*\**"*/"     {/*Ignorar comentarios con multiples lneas*/} 
-
+"/*"((\*+[^/*])|([^*]))*\**"*/"     {/*Ignorar comentarios con multiples lneas*/}
+"tocharArray" { console.log("Reconocio : "+ yytext); return 'CHARARRAY'}
+"new"  { console.log("Reconocio : "+ yytext); return 'NEW'}
 "(int)"  { console.log("Reconocio : "+ yytext); return 'CASTEOINT'}
 "(double)"  { console.log("Reconocio : "+ yytext); return 'CASTEODOUBLE'}
 "toString"  { console.log("Reconocio : "+ yytext); return 'CASTEOSTRING'}
@@ -35,6 +36,8 @@ caracter         (\'({escape2} | {aceptacion2})\')
 "toLower"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOLOWER'}
 "toUpper"  { console.log("Reconocio : "+ yytext); return 'CASTEOTOUPPER'}
 "length"  { console.log("Reconocio : "+ yytext); return 'LENGTH'}
+"round"  { console.log("Reconocio : "+ yytext); return 'ROUND'}
+
 /* Simbolos del programa */
 
 "--"                  { console.log("Reconocio : " + yytext);  return 'DECRE' } 
@@ -93,6 +96,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
 
 "if"               { console.log("Reconocio : "+ yytext); return 'IF'}
 "while"            { console.log("Reconocio : "+ yytext); return 'WHILE'}
+"do"            { console.log("Reconocio : "+ yytext); return 'DO'}
 "else"             { console.log("Reconocio : "+ yytext); return 'ELSE'}
 "break"            { console.log("Reconocio : "+ yytext); return 'BREAK'}
 
@@ -159,6 +163,7 @@ caracter         (\'({escape2} | {aceptacion2})\')
         const asignacion = require('../Interprete/Instrucciones/Asignacion');
         const Ifs = require('../Interprete/Instrucciones/SentenciasControl/Ifs');
         const While = require('../Interprete/Instrucciones/SentenciasCiclica/While');
+        const DoWhile = require('../Interprete/Instrucciones/SentenciasCiclica/DoWhile');
         const ternario = require('../Interprete/Expresiones/Ternario');
         const detener = require('../Interprete/Instrucciones/SentenciasTransferencia/Break');
 
@@ -181,10 +186,10 @@ caracter         (\'({escape2} | {aceptacion2})\')
 %right 'INTERROGACION'
 %left 'OR'
 %left 'AND'
-%right 'NOT' 'CASTEODOUBLE' 'CASTEOINT' 'CASTEOSTRING' 'CASTEOCHAR' 'CASTEOTIPO' 'CASTEOTOLOWER' 'CASTEOTOUPPER'
+%right 'NOT' 'CASTEODOUBLE' 'CASTEOINT' 'CASTEOSTRING' 'CASTEOCHAR' 'CASTEOTIPO' 'CASTEOTOLOWER' 'CASTEOTOUPPER' 'LENGTH' 'ROUND'
 %left 'IGUALIGUAL' 'DIFERENTE' 'MENORQUE' 'MENORIGUAL' 'MAYORQUE' 'MAYORIGUAL'
 %left 'MAS' 'MENOS'
-%left 'MULTI' 'DIV'
+%left 'DIV'  'MULTI' 
 %left 'POT' 
 %right 'MOD'
 %right UMINUS
@@ -206,6 +211,7 @@ instruccion : declaracion   { $$ =  $1; }
             | asignacion    { $$ = $1; }
             | sent_if       { $$ = $1; }
             | sent_while    { $$ = $1; } 
+            | sent_Dowhile  { $$ = $1; } 
             | BREAK PYC     { $$ = new detener.default(); }
             | sent_switch   { $$ = $1; } 
             | sent_for       { $$ = $1; } 
@@ -225,9 +231,23 @@ instruccion : declaracion   { $$ =  $1; }
                             }
             ;
 
-declaracion : tipo lista_ids IGUAL e PYC  { $$ = new declaracion.default($1, $2, $4,  @1.first_line, @1.last_column);}  
+declaracion : tipo lista_ids IGUAL e PYC  { $$ = new declaracion.default($1, $2, $4,@1.first_line, @1.last_column);}  
             | tipo lista_ids PYC         { $$ = new declaracion.default($1, $2, null,  @1.first_line, @1.last_column);}
+            | tipo lista_ids CORA CORC IGUAL NEW  tipo CORA e CORC  PYC         { $$ = new declaracion.default($1, $2, null,  @1.first_line, @1.last_column,$7,$9);}
+            | tipo lista_ids CORA e CORC IGUAL CORA listasimpleCORC  PYC         { $$ = new declaracion.default($1, $2, null,  @1.first_line, @1.last_column,$1,$4);}
+            | tipo lista_ids CORA CORC CORA CORC IGUAL NEW  tipo CORA e CORC  CORA  e CORC PYC         { $$ = new declaracion.default($1, $2, null,  @1.first_line, @1.last_column);}
+            | tipo CORA CORC  lista_ids IGUAL e PYC { $$ = new declaracion.default($1, $4, $6,  @1.first_line, @1.last_column);}
+            | tipo lista_ids CORA e CORC CORA e CORC  IGUAL CORA doublearray  CORC  PYC      { $$ = new declaracion.default($1, $2, null,  @1.first_line, @1.last_column,$1,$4,$7,$11);}
+
             ;
+
+doublearray: doublearray COMA CORA listasimple CORC { $$ = $1; $$.push($4);}
+            | CORA listasimple   CORC   {$$= new Array(); $$.push($2);}
+	    ;
+
+listasimple:listasimple COMA e { $$ = $1; $$.push($3);}
+	    | e  {$$= new Array(); $$.push($1);}
+	    ;
 
 tipo : INT     {$$ = new tipo.default("ENTERO"); }
     | DOUBLE    {$$ = new tipo.default("DOBLE"); }
@@ -245,6 +265,9 @@ writeline : PRINTLN PARA e PARC PYC { $$ = new writeline.default($3,true,@1.firs
         ;
 
 asignacion : ID IGUAL e PYC   { $$ = new asignacion.default($1, $3, @1.first_line, @1.last_column); }
+        |  ID CORA e CORC IGUAL e PYC   { $$ = new asignacion.default($1, $6, @1.first_line, @1.last_column,$3); }
+        |  ID CORA e CORC CORA e CORC IGUAL e PYC   { $$ = new asignacion.default($1, $9, @1.first_line, @1.last_column,$3,$6); }
+
             ;
 
 sent_if : IF PARA e PARC LLAVA instrucciones LLAVC { $$ = new Ifs.default($3, $6, [], @1.first_line, @1.last_column); }
@@ -253,6 +276,10 @@ sent_if : IF PARA e PARC LLAVA instrucciones LLAVC { $$ = new Ifs.default($3, $6
         ;
 
 sent_while : WHILE PARA e PARC LLAVA instrucciones LLAVC { $$ = new While.default($3, $6, @1.first_line, @1.last_column);  }
+            ;
+
+
+sent_Dowhile : DO  LLAVA instrucciones LLAVC WHILE PARA e PARC PYC  { $$ = new DoWhile.default($7, $3, @1.first_line, @1.last_column);  }
             ;
 
 sent_for : FOR PARA dec_asig_for PYC e PYC actualizacion_for PARC LLAVA instrucciones LLAVC { $$ = new For.default($3, $5, $7, $10, @1.first_line, @1.last_column); }
@@ -296,6 +323,8 @@ funciones
 
 lista_params : lista_params COMA tipo ID          { $$ = $1; $$.push(new simbolo.default(6, $3, $4, null)); }
              | tipo ID                           { $$ = new Array(); $$.push(new simbolo.default(6, $1, $2, null)); }
+             | tipo CORA CORC ID                           { $$ = new Array(); $$.push(new simbolo.default(6, $1, $4, null)); }
+             | tipo CORA CORC  CORA CORC ID                { $$ = new Array(); $$.push(new simbolo.default(6, $1, $6, null)); }
              ;
 
 llamada : ID PARA lista_vals PARC {$$ = new llamada.default($1, $3,@1.first_line, @1.last_column ); }
@@ -336,11 +365,15 @@ e : e MAS e         { $$ = new aritmetica.default($1, '+', $3, @1.first_line, @1
     | CASTEOTOLOWER PARA e PARC { $$ = new logica.default($3, '(lower)', null, @1.first_line, @1.last_column,true); } 
     | CASTEOTOUPPER PARA e PARC { $$ = new logica.default($3, '(upper)', null, @1.first_line, @1.last_column,true); } 
     | LENGTH PARA e PARC { $$ = new logica.default($3, '(length)', null, @1.first_line, @1.last_column,true); } 
+    | CHARARRAY PARA e PARC { $$ = new logica.default($3, '(chararray)', null, @1.first_line, @1.last_column,true); } 
+    | ROUND PARA e PARC { $$ = new logica.default($3, '(round)', null, @1.first_line, @1.last_column,true); } 
     | MENOS e %prec UMINUS    { $$ = new aritmetica.default($2, 'UNARIO', null, @1.first_line, @1.last_column,true); }
     | PARA e PARC       { $$ = $2; }
     | DECIMAL           { $$ = new primitivo.default(Number($1), 'DOBLE', @1.first_line, @1.last_column); }
     | ENTERO            { $$ = new primitivo.default(Number($1), 'ENTERO', @1.first_line, @1.last_column); }
     | ID                { $$ = new identificador.default($1, @1.first_line, @1.last_column); }
+    | ID CORA e CORC               { $$ = new identificador.default($1, @1.first_line, @1.last_column,$3); }
+    | ID CORA e CORC CORA e CORC   { $$ = new identificador.default($1, @1.first_line, @1,$3,$6); }
     | CADENA            { $1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, 'CADENA', @1.first_line, @1.last_column); }
     | CARACTER          { $1 = $1.slice(1, $1.length-1); $$ = new primitivo.default($1, 'CARACTER', @1.first_line, @1.last_column); }
     | TRUE              { $$ = new primitivo.default(true, 'BOOLEANO', @1.first_line, @1.last_column); }

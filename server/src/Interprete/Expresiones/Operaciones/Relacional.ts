@@ -1,3 +1,4 @@
+import Errores from "../../Ast/Errores";
 import Nodo from "../../Ast/Nodo";
 import Controlador from "../../Controlador";
 import { Expresion } from "../../Interfaces/Expresion";
@@ -6,6 +7,9 @@ import { tipo } from "../../TablaSimbolos/Tipo";
 import Operacion, { Operador } from "./Operacion";
 
 export default class Relacional extends Operacion implements Expresion{
+    public expresion1: any;
+    public expresion2: any;
+    
 
     /**
      * @constructor este constructor utiliza el mismo de la clase Operacion
@@ -68,6 +72,7 @@ export default class Relacional extends Operacion implements Expresion{
                     if(tipo_exp2 == tipo.CADENA){
                         return tipo.BOOLEANO;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `No esperaba este simbolo`, this.linea, this.columna));
                         return tipo.ERROR;
                     }
                 } 
@@ -99,6 +104,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 == num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semanticoS
                         return null;
                     }
@@ -109,6 +115,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 == num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -120,6 +127,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci_exp2 = valor_exp2.charCodeAt(0);
                         return num_ascci_exp1 == num_ascci_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.BOOLEANO){
@@ -135,12 +143,14 @@ export default class Relacional extends Operacion implements Expresion{
                         
                         return num_bool_exp1 == num_bool_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CADENA){
                     if(tipo_exp2 == tipo.CADENA){ 
                         return valor_exp1 == valor_exp2; //"hola" == "hola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 } 
@@ -155,6 +165,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 != num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semanticoS
                         return null;
                     }
@@ -165,6 +176,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 != num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -176,6 +188,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci_exp2 = valor_exp2.charCodeAt(0);
                         return num_ascci_exp1 != num_ascci_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.BOOLEANO){
@@ -191,12 +204,14 @@ export default class Relacional extends Operacion implements Expresion{
                         
                         return num_bool_exp1 != num_bool_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CADENA){
                     if(tipo_exp2 == tipo.CADENA){ 
                         return valor_exp1 != valor_exp2; //"hola" == "hola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 } 
@@ -211,6 +226,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 < num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semanticoS
                         return null;
                     }
@@ -221,6 +237,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 < num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -232,6 +249,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci_exp2 = valor_exp2.charCodeAt(0);
                         return num_ascci_exp1 < num_ascci_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.BOOLEANO){
@@ -247,12 +265,14 @@ export default class Relacional extends Operacion implements Expresion{
                         
                         return num_bool_exp1 < num_bool_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CADENA){
                     if(tipo_exp2 == tipo.CADENA){ 
                         return valor_exp1 < valor_exp2; //"hola" < "hola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 } 
@@ -267,6 +287,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 > num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semanticoS
                         return null;
                     }
@@ -277,6 +298,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 > num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -288,6 +310,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci_exp2 = valor_exp2.charCodeAt(0);
                         return num_ascci_exp1 > num_ascci_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.BOOLEANO){
@@ -303,12 +326,14 @@ export default class Relacional extends Operacion implements Expresion{
                         
                         return num_bool_exp1 > num_bool_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CADENA){
                     if(tipo_exp2 == tipo.CADENA){ 
                         return valor_exp1 > valor_exp2; //"hola" > "hola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 } 
@@ -323,6 +348,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 <= num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semanticoS
                         return null;
                     }
@@ -333,6 +359,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci = valor_exp2.charCodeAt(0);
                         return valor_exp1 <= num_ascci;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CARACTER){
@@ -344,6 +371,7 @@ export default class Relacional extends Operacion implements Expresion{
                         let num_ascci_exp2 = valor_exp2.charCodeAt(0);
                         return num_ascci_exp1 <= num_ascci_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.BOOLEANO){
@@ -359,12 +387,14 @@ export default class Relacional extends Operacion implements Expresion{
                         
                         return num_bool_exp1 <= num_bool_exp2;
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 }else if(tipo_exp1 == tipo.CADENA){
                     if(tipo_exp2 == tipo.CADENA){ 
                         return valor_exp1 <= valor_exp2; //"hola" <= "hola"
                     }else{
+                        controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                         //reportar error semantico
                     }
                 } 
@@ -379,6 +409,7 @@ export default class Relacional extends Operacion implements Expresion{
                             let num_ascci = valor_exp2.charCodeAt(0);
                             return valor_exp1 >= num_ascci;
                         }else{
+                            controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                             //reportar error semanticoS
                             return null;
                         }
@@ -389,6 +420,7 @@ export default class Relacional extends Operacion implements Expresion{
                             let num_ascci = valor_exp2.charCodeAt(0);
                             return valor_exp1 >= num_ascci;
                         }else{
+                            controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                             //reportar error semantico
                         }
                     }else if(tipo_exp1 == tipo.CARACTER){
@@ -400,6 +432,7 @@ export default class Relacional extends Operacion implements Expresion{
                             let num_ascci_exp2 = valor_exp2.charCodeAt(0);
                             return num_ascci_exp1 >= num_ascci_exp2;
                         }else{
+                            controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                             //reportar error semantico
                         }
                     }else if(tipo_exp1 == tipo.BOOLEANO){
@@ -415,12 +448,14 @@ export default class Relacional extends Operacion implements Expresion{
                             
                             return num_bool_exp1 >= num_bool_exp2;
                         }else{
+                            controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                             //reportar error semantico
                         }
                     }else if(tipo_exp1 == tipo.CADENA){
                         if(tipo_exp2 == tipo.CADENA){ 
                             return valor_exp1 >= valor_exp2; //"hola" >= "hola"
                         }else{
+                            controlador.errores.push(new Errores("Semantico", `Incompatibilidad de tipos`, this.linea, this.columna));
                             //reportar error semantico
                         }
                     } 
@@ -430,6 +465,13 @@ export default class Relacional extends Operacion implements Expresion{
     }
 
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        //console.log("-----sEGUNDO------")
+        let padre = new Nodo("Condicion","");
+        padre.AddHijo(this.exp1.recorrer())
+        padre.AddHijo(new Nodo(this.signo_operador , ""))
+        padre.AddHijo(this.exp2.recorrer())
+
+
+        return padre
     }
 }

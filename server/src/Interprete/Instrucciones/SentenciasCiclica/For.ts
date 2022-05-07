@@ -1,3 +1,4 @@
+import Errores from "../../Ast/Errores";
 import Nodo from "../../Ast/Nodo";
 import Controlador from "../../Controlador";
 import { Expresion } from "../../Interfaces/Expresion";
@@ -26,7 +27,7 @@ export default class For implements Instruccion {
     }
 
     ejecutar(controlador: Controlador, ts: TablaSimbolos) {
-        let ts_local = new TablaSimbolos(ts);
+        let ts_local = new TablaSimbolos(ts,ts.name);
         let temp = controlador.sent_ciclica;
         controlador.sent_ciclica = true;
         //console.log("estamos en el for")
@@ -36,7 +37,7 @@ export default class For implements Instruccion {
         if(this.condicion.getTipo(controlador,ts_local) == tipo.BOOLEANO){
             while(this.condicion.getValor(controlador,ts_local)){
                
-                let ts_local2 = new TablaSimbolos(ts_local);
+                let ts_local2 = new TablaSimbolos(ts_local,ts_local.name);
                 for(let inst of this.lista_instrucciones){
                     let ret = inst.ejecutar(controlador,ts_local2);
                     if(ret instanceof Break){
@@ -47,6 +48,7 @@ export default class For implements Instruccion {
                 this.actualizacion.ejecutar(controlador,ts_local);
             }
         }else{
+            controlador.errores.push(new Errores("Semantico", `la condicion no es booleana`, this.linea, this.columna));
             //reportamos error semantico de que la condicion no es booleana\
             
         }
@@ -57,7 +59,7 @@ export default class For implements Instruccion {
 
     }
     recorrer(): Nodo {
-       let padre = new Nodo("SENT FOR", "");
+       let padre = new Nodo("Sentencia  For", "");
 
        padre.AddHijo(new Nodo("for", ""));
        padre.AddHijo(new Nodo("(", ""));

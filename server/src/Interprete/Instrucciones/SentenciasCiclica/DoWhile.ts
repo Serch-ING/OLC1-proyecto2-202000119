@@ -29,21 +29,24 @@ export default class While implements Instruccion{
 
         if(this.condicion.getTipo(controlador,ts) == tipo.BOOLEANO){
             siguiente:
-            while(this.condicion.getValor(controlador,ts)){
+            do {
                 let ts_local = new TablaSimbolos(ts,ts.name);
                 for(let inst of this.lista_instrucciones){
                     let ret = inst.ejecutar(controlador,ts_local);  
                     if(ret instanceof Break){
+                        console.log("ME SALI POR ERROR")
                         controlador.sent_ciclica = temp;
-                        return null;
+                        return ret;
                     }
                     if(ret instanceof Continue){
                         continue siguiente;
                     }
                 }
-            }
+
+            }  
+            while(this.condicion.getValor(controlador,ts))             
         }else{
-            controlador.errores.push(new Errores("Semantico", `La condicion no es booleana`, this.linea, this.columna));
+            controlador.errores.push(new Errores("Semantico", `condicion no es booleana`, this.linea, this.columna));
             //reportamos error semantico de que la condicion no es booleana\
             
         }
@@ -53,25 +56,30 @@ export default class While implements Instruccion{
         return null;
     }
     recorrer(): Nodo {
-        let padre = new Nodo("Sentencia While", "");
+        let padre = new Nodo("Sentencia Do While", "");
+        padre.AddHijo(new Nodo("Do", ""));
 
-        padre.AddHijo(new Nodo("while", ""));
-        padre.AddHijo(new Nodo("(", ""));
+        let hijo_instrucciones = new Nodo("Instrucciones","");
+        for(let inst of this.lista_instrucciones){
+             hijo_instrucciones.AddHijo(inst.recorrer());
+        }
+ 
+         padre.AddHijo(hijo_instrucciones);
+ 
+
+      
 
         let condicion_while = new Nodo("Condicion","");
+
+        padre.AddHijo(new Nodo("(", ""));
+
         condicion_while.AddHijo(this.condicion.recorrer())
 
         padre.AddHijo(condicion_while)
     
         padre.AddHijo(new Nodo(")", ""));
         
-        let hijo_instrucciones = new Nodo("Instrucciones","");
-         for(let inst of this.lista_instrucciones){
-             hijo_instrucciones.AddHijo(inst.recorrer());
-         }
- 
-         padre.AddHijo(hijo_instrucciones);
- 
+       
         return padre;
     }
 }

@@ -42,23 +42,23 @@
   
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
+          <button type="button" class="btn btn-success rounded-pill"   (click) = "ModalSimbolos()"> Reporte simbolos</button>
 
-          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()">Reportes Errores</button>
+         
           </a>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
 
-          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()">Reportes ats</button>
+          <button type="button" class="btn btn-primary rounded-pill"   (click) = "getATS()">Reportes ats</button>
           </a>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon">
-
-          <button type="button" class="btn btn-danger rounded-pill"   (click) = "getInfo()"> Reporte simbolos</button>
-          <button class="tablink" onclick="openPage('TablaSim')">Tabla de Simbolos</button>
+            <button type="button" class="btn btn-danger rounded-pill"   (click) = "ModalError()">Reportes Errores</button>
+          
           </a>
         </li>
   
@@ -81,14 +81,44 @@ mode="java"
 <h2>Salida</h2>
 
 <div class="salida_Ace" id='salida_Ace'  style="height:500px;"></div>
-
+<!--
 <h2>REPORTE DATA</h2>
-<pre> {{Tablasimbolos}} </pre>
 
 <table>
-  <thead  class="thead-dark"><tr><td colspan="6">Tabla de Simbolos </td></tr><tr><th>Rol</th><th>Nombre</th><th>Tipo</th><th>Ambito</th><th>Valor</th><th>Parametros</th></tr></thead>
+ 
+  <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Rol</th>
+    <th scope="col">Nombre</th>
+    <th scope="col">Tipo</th>
+    <th scope="col">Ambito</th>
+    <th scope="col">Valor</th>
+    <th scope="col">Parametros</th>
+    </tr>
+    </thead>
   <tbody>
-    <tr></tr>
-  </tbody>
-</table>
+    <tr *ngFor="let item of varibles_cont; index as i">
+    <th scope="row">{{i+1}}</th>
+    <td>{{item[0]}}</td>
+    <td>{{item[1]}}</td>
+    <td>{{item[2]}}</td>
+    <td>{{item[3]}}</td>
+    <td>{{item[4]}}</td>
+    <td>{{item[5]}}</td>
 
+    </tr>
+    </tbody>
+</table>
+-->
+<div *ngIf="ModalSimbolo == true">
+  <app-modal-tsimbolos  [Datos]="varibles_cont"></app-modal-tsimbolos>
+</div>
+
+<div *ngIf="ModalATS == true" >
+  <app-modal-ats [Datos]="Info_ATS"></app-modal-ats>
+</div>
+
+<div *ngIf="ModalErrores == true" >
+  <app-modal-error [Datos]="varibles_err"></app-modal-error>
+</div>

@@ -158,8 +158,25 @@ instruccion : declaracion
             ;
 
 declaracion : tipo lista_ids IGUAL e PYC  
-            | tipo lista_ids PYC       
+            | tipo lista_ids PYC   
+            | tipo lista_ids CORA CORC IGUAL simplearray  PYC     
+            | tipo lista_ids CORA CORC CORA CORC IGUAL doublearray PYC       
             ;
+
+simplearray: NEW  tipo CORA e CORC  
+            |  CORA listasimple CORC 
+
+listasimple:listasimple COMA e
+	    | e
+	    ;
+
+doublearray: NEW  tipo CORA e CORC  CORA  e CORC 
+	    | CORA listadoarray CORC 
+	    ;
+
+listadoarray: listadoarray COMA listasimple
+            | listasimple
+	    ;
 
 tipo : INT    
     | DOUBLE   
@@ -261,6 +278,8 @@ e : e MAS e
     | CASTEOTIPO PARA e PARC 
     | CASTEOTOLOWER PARA e PARC 
     | CASTEOTOUPPER PARA e PARC 
+    | ROUND PARA e PARC
+    | CHARARRAY e
     | LENGTH PARA e PARC
     | MENOS e %prec UMINUS    
     | PARA e PARC      

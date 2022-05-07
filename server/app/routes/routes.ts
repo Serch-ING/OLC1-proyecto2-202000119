@@ -27,6 +27,7 @@ router.post('/recorrer', function(req, res) {
         res.status(500).json({ast : "Se ha producido un error"});
     }
 })
+
 router.post('/ejecutar', function(req, res) {
     try {
         const { input } = req.body;
@@ -42,6 +43,8 @@ router.post('/ejecutar', function(req, res) {
         
         let ts_html = controlador.graficar_ts(controlador,ts_global);
 
+        let ts_html_error = controlador.obtenererrores();
+      
        /* for(let evaluar of arreglo){
             let valor = evaluar.expresion.getValor(controlador,ts_global);
 
@@ -54,7 +57,7 @@ router.post('/ejecutar', function(req, res) {
             }
             
         }*/
-        res.status(200).json({consola : controlador.consola, ts : ts_html});
+        res.status(200).json({consola : controlador.consola, ts : ts_html, errores: ts_html_error});
         //res.status(200).json({consola : '', ts : ''});
     } catch (error) {
         console.log(error);

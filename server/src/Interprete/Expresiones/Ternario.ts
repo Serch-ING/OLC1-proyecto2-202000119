@@ -41,6 +41,11 @@ export default class Ternario implements Expresion{
         }
     }
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("Ternario","");
+        padre.AddHijo(this.verdadero.recorrer())
+        padre.AddHijo(new Nodo("?",""))
+        padre.AddHijo(this.falso.recorrer())
+
+        return padre;
     }
 }

@@ -70,7 +70,7 @@ export default class Logica extends Operacion implements Expresion{
             }
         }else{
 
-            if(this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO || this.operador == Operador.UPPER ||  this.operador == Operador.LOWER || this.operador == Operador.LENGHT)
+            if(this.operador == Operador.CHARARRAY||this.operador == Operador.CASTEOINT || this.operador == Operador.CASTEODOUBLE || this.operador == Operador.CASTEOSTRING || this.operador == Operador.CASTEOCHAR ||  this.operador == Operador.CASTEOTIPO || this.operador == Operador.UPPER ||  this.operador == Operador.LOWER || this.operador == Operador.LENGHT || this.operador == Operador.ROUND)
 
                 switch (this.operador) {
                     case Operador.CASTEOINT:
@@ -104,7 +104,12 @@ export default class Logica extends Operacion implements Expresion{
                     case Operador.LENGHT:
                             return tipo.ENTERO;
                             break;
-                    
+                    case Operador.ROUND:
+                        return tipo.ENTERO;
+                        break;
+                    case Operador.CHARARRAY:
+                        return tipo.CARACTER;
+                        break;
                     default:
                         return tipo.ERROR;
                         break;
@@ -161,7 +166,8 @@ export default class Logica extends Operacion implements Expresion{
             valor_expU = this.exp1.getValor(controlador,ts); // false
 
         }
-
+        //console.log("--------------------LLEGO---------------------------------")
+        //console.log(this.operador)
         switch (this.operador) {
             case Operador.AND:
                 if(tipo_exp1 == tipo.BOOLEANO){
@@ -217,7 +223,7 @@ export default class Logica extends Operacion implements Expresion{
                     }
                     
                 }else{
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se puede realizar la operacion de casteo int`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -235,7 +241,7 @@ export default class Logica extends Operacion implements Expresion{
                     }
                     
                 }else{
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se puede realizar el cateo de double`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -247,7 +253,7 @@ export default class Logica extends Operacion implements Expresion{
                     return  valor_expU.toString();        
 
                 }else{
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se puede realizar el casteo de string`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -259,7 +265,7 @@ export default class Logica extends Operacion implements Expresion{
                     return  String.fromCharCode(valor_expU);      
                         
                 }else{
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se puede realizar la operacion casteo char`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -280,7 +286,7 @@ export default class Logica extends Operacion implements Expresion{
                     }else if(tipo_expU == tipo.CADENA){
                         return "String"
                     }else{
-                        let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                        let error = new Errores("Semantico", `No se puede realizar la operacion de obtner tipo`, this.linea, this.columna);
                         controlador.errores.push(error);
                         controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                         return null;
@@ -288,7 +294,7 @@ export default class Logica extends Operacion implements Expresion{
 
                         
                 } catch (errror) {
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se esperaba este simbolo`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -301,7 +307,7 @@ export default class Logica extends Operacion implements Expresion{
                 try {
                     return valor_expU.toUpperCase();
                 } catch (errror) {
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se puede realizar la operacion UPPER`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -312,7 +318,7 @@ export default class Logica extends Operacion implements Expresion{
                 try {
                     return valor_expU.toLowerCase();
                 } catch (errror) {
-                    let error = new Errores("Semantico", `No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano.`, this.linea, this.columna);
+                    let error = new Errores("Semantico", `No se puede realizar la operacion LOWER`, this.linea, this.columna);
                     controlador.errores.push(error);
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
@@ -320,7 +326,8 @@ export default class Logica extends Operacion implements Expresion{
                 break;
 
             case Operador.LENGHT:
-                if(tipo_expU == tipo.CADENA){
+               // if(tipo_expU == tipo.CADENA ){
+                if(true ){
 
                     return  valor_expU.length;        
 
@@ -330,11 +337,85 @@ export default class Logica extends Operacion implements Expresion{
                     controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
                     return null;
                 }
+
+            case Operador.ROUND:
+                if(tipo_expU == tipo.ENTERO || tipo_expU==tipo.DOBLE){
+
+                    return  Math.round(valor_expU);        
+
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion round`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
+            case Operador.CHARARRAY:
+                if(tipo_expU == tipo.CADENA ){
+        
+                    return Array.from(valor_expU);        
+
+                }else{
+                    let error = new Errores("Semantico", `No se puede realizar la operacion tocharr array`, this.linea, this.columna);
+                    controlador.errores.push(error);
+                    controlador.append(` *** ERROR: Semantico, No se puede realizar la operacion logica NOT, ya que solo se permiten valores booleano. En la linea ${this.linea} y columna ${this.columna}`)
+                    return null;
+                }
            
         }
     }
 
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        //console.log("-----PRIMERO------")
+        //console.log(this)
+        let padre = new Nodo("Condicion","");
+
+        let expre1_nodo:any; 
+        if(this.exp1!=null){
+            expre1_nodo = this.exp1.recorrer()  
+        }
+        
+        let expre2_nodo:any; 
+        if(this.exp2!=null){
+            expre2_nodo = this.exp2.recorrer()   
+        }
+       
+        if(this.signo_operador == '!'){
+            padre.AddHijo(new Nodo(this.signo_operador , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(int)'){
+            padre.AddHijo(new Nodo(this.signo_operador , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(double)'){
+            padre.AddHijo(new Nodo(this.signo_operador , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(char)'){
+            padre.AddHijo(new Nodo(this.signo_operador , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(string)'){
+            padre.AddHijo(new Nodo("toString" , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(tipo)'){
+            padre.AddHijo(new Nodo("typeof" , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(lower)'){
+            padre.AddHijo(new Nodo("toLower" , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(upper)'){
+            padre.AddHijo(new Nodo("toUpper" , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(length)'){
+            padre.AddHijo(new Nodo('length' , ""))
+            padre.AddHijo(expre1_nodo)
+        }else if(this.signo_operador == '(round)'){
+            padre.AddHijo(new Nodo('round' , ""))
+            padre.AddHijo(expre1_nodo)
+        }else{
+            padre.AddHijo(expre1_nodo)
+            padre.AddHijo(new Nodo(this.signo_operador , ""))
+            padre.AddHijo(expre2_nodo)
+        }
+        return padre
+        
+        
     }
 }

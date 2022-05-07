@@ -22,7 +22,12 @@ export default class StartWith implements Instruccion{
     }
 
     recorrer(): Nodo {
-        throw new Error("Method not implemented.");
+        let padre = new Nodo("RUN", "");
+
+        padre.AddHijo(this.llamada.recorrer());
+
+       
+        return padre;
     } 
 
 }

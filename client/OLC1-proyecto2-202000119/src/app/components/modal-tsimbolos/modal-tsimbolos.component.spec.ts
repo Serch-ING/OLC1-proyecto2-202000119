@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditorComponent } from './editor.component';
+import { ModalTsimbolosComponent } from './modal-tsimbolos.component';
 
-describe('EditorComponent', () => {
-  let component: EditorComponent;
-  let fixture: ComponentFixture<EditorComponent>;
-  
+describe('ModalTsimbolosComponent', () => {
+  let component: ModalTsimbolosComponent;
+  let fixture: ComponentFixture<ModalTsimbolosComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditorComponent ]
+      declarations: [ ModalTsimbolosComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditorComponent);
+    fixture = TestBed.createComponent(ModalTsimbolosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
